@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tollway/src/screens/promotions.dart';
 import 'package:tollway/src/screens/user.dart';
-import 'package:tollway/src/widgets/logo.dart';
+import 'package:tollway/src/widgets/CustomImage.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

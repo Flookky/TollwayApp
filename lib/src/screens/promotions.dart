@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/logo.dart';
+import '../widgets/CustomImage.dart';
 
 class PromotionsScreen extends StatefulWidget {
   @override
@@ -15,7 +15,7 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
       child: Center(
         child: Column(
           children: <Widget>[
-            LogoApp(),
+            CustomImage(width: 230.0, height: 230.0, margin: 0.0, image_path: 'assets/images/logo.png',),
             Text(
               "โปรโมชั่น",
               style: TextStyle(
