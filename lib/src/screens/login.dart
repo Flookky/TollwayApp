@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:tollway/src/screens/home.dart';
+import 'package:tollway/src/screens/promotions.dart';
+import 'package:tollway/src/screens/userInform.dart';
 import 'package:tollway/src/widgets/CustomImage.dart';
+import 'package:tollway/src/widgets/appBg.dart';
+import 'package:tollway/src/widgets/constants.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -9,6 +14,17 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _rememberMe = false;
+  final kBoxDecorationStyle = BoxDecoration(
+    color: Color(0xFFBA68C8),
+    borderRadius: BorderRadius.circular(10.0),
+    boxShadow: [
+      BoxShadow(
+        color: Colors.black12,
+        blurRadius: 6.0,
+        offset: Offset(0, 2),
+      ),
+    ],
+  );
 
   Widget _buildUsernameTF() {
     return Column(
@@ -29,8 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Container(
           alignment: Alignment.centerLeft,
           //decoration: kBoxDecorationStyle,
-          height: 50.0,
-          color: Colors.white,
+          height: 70.0,
           child: TextField(
             keyboardType: TextInputType.text,
             style: TextStyle(
@@ -38,17 +53,48 @@ class _LoginScreenState extends State<LoginScreen> {
               fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
-              border: InputBorder.none,
+              hintText: 'Enter your Username',
+              hintStyle: TextStyle(fontSize: 16),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(23),
+                borderSide: BorderSide(
+                  width: 3,
+                  //style: BorderStyle.none
+                )
+              ),
+              filled: true,
+              fillColor: Colors.white,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
                 Icons.account_circle,
                 color: Colors.black,
               ),
-              hintText: 'Enter your Username',
               //hintStyle: kHintTextStyle,
             ),
           ),
         ),
+        // Container(
+        //   alignment: Alignment.centerLeft,
+        //   decoration: kBoxDecorationStyle,
+        //   height: 60.0,
+        //   child: TextField(
+        //     keyboardType: TextInputType.text,
+        //     style: TextStyle(
+        //       color: Colors.white,
+        //       fontFamily: 'OpenSans',
+        //     ),
+        //     decoration: InputDecoration(
+        //       border: InputBorder.none,
+        //       contentPadding: EdgeInsets.only(top: 14.0),
+        //       prefixIcon: Icon(
+        //         Icons.account_circle,
+        //         color: Colors.white,
+        //       ),
+        //       hintText: 'Enter your Username',
+        //       hintStyle: kHintTextStyle,
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }
@@ -69,23 +115,29 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         Container(
           alignment: Alignment.centerLeft,
-          //decoration: kBoxDecorationStyle,
-          height: 50.0,
+          height: 70.0,
           child: TextField(
             obscureText: true,
             style: TextStyle(
-              color: Colors.white,
+              color: Colors.black,
               fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
-              border: InputBorder.none,
+              hintText: 'Enter your Password',
+              hintStyle: TextStyle(fontSize: 16),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(23),
+                  borderSide: BorderSide(
+                    width: 3,
+                  )
+              ),
+              filled: true,
+              fillColor: Colors.white,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
                 Icons.lock,
-                color: Colors.white,
+                color: Colors.black,
               ),
-              hintText: 'Enter your Password',
-              //hintStyle: kHintTextStyle,
             ),
           ),
         ),
@@ -145,17 +197,22 @@ class _LoginScreenState extends State<LoginScreen> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () => print('Login Button Pressed'),
+        onPressed: () {
+          Navigator.of(context)
+              .push(
+              MaterialPageRoute(builder: (context) => HomeScreen())
+          );
+        },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
-          side: BorderSide(color: Colors.grey, width: 3)
+          // side: BorderSide(color: Colors.grey, width: 3)
         ),
-        color: Colors.white,
+        color: Colors.purple[900],
         child: Text(
           'LOGIN',
           style: TextStyle(
-            color: Colors.purple[900],
+            color: Colors.white,
             letterSpacing: 1.5,
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
@@ -172,11 +229,16 @@ class _LoginScreenState extends State<LoginScreen> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () => print('Register Button Pressed'),
+        onPressed: () {
+          Navigator.of(context)
+            .push(
+              MaterialPageRoute(builder: (context) => UserInform())
+            );
+        },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
-          side: BorderSide(color: Colors.grey, width: 3)
+          // side: BorderSide(color: Colors.grey, width: 3)
         ),
         color: Colors.white,
         child: Text(
@@ -296,23 +358,7 @@ class _LoginScreenState extends State<LoginScreen> {
           onTap: () => FocusScope.of(context).unfocus(),
           child: Stack(
             children: <Widget>[
-              Container(
-                height: double.infinity,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.purple[50],
-                      Colors.purple[200],
-                      Colors.purple[300],
-                      Colors.purple[400],
-                    ],
-                    stops: [0.1, 0.4, 0.7, 0.9],
-                  ),
-                ),
-              ),
+              AppBackground(),
               Container(
                 height: double.infinity,
                 child: SingleChildScrollView(
@@ -324,22 +370,26 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
+                      SizedBox(height: 30,),
                       CustomImage(
-                        width: 220.0,
-                        height: 220.0,
+                        width: 130.0,
+                        height: 130.0,
                         margin: 0,
-                        image_path: 'assets/images/logo.png',
+                        image_path: 'assets/logos/logo_white.png',
                       ),
-                      Text(
-                        'Sign In',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'OpenSans',
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      SizedBox(
+                        height: 20.0,
                       ),
-                      SizedBox(height: 30.0),
+                      // Text(
+                      //   'Sign In',
+                      //   style: TextStyle(
+                      //     color: Colors.white,
+                      //     fontFamily: 'OpenSans',
+                      //     fontSize: 30.0,
+                      //     fontWeight: FontWeight.bold,
+                      //   ),
+                      // ),
+                      //SizedBox(height: 30.0),
                       _buildUsernameTF(),
                       SizedBox(
                         height: 10.0,
@@ -358,6 +408,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       //_buildSignInWithText(),
                       //_buildSocialBtnRow(),
                       //_buildSignupBtn(),
+                      SizedBox(
+                        height: 20.0,
+                      ),
                     ],
                   ),
                 ),
