@@ -183,9 +183,32 @@ class UserScreen extends StatelessWidget {
     );
   }
 
-  Widget logoutBtn(){
+  Widget _logoutBtn() {
     return Container(
+      padding: EdgeInsets.symmetric(vertical: 0.0),
+      width: double.infinity,
+      child: RaisedButton(
+        elevation: 5.0,
+        onPressed: () {
 
+        },
+        padding: EdgeInsets.all(15.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+          // side: BorderSide(color: Colors.grey, width: 3)
+        ),
+        color: Colors.purple[400],
+        child: Text(
+          'LOGOUT',
+          style: TextStyle(
+            color: Colors.white,
+            letterSpacing: 1.5,
+            fontSize: 18.0,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'OpenSans',
+          ),
+        ),
+      ),
     );
   }
 
@@ -249,7 +272,8 @@ class UserScreen extends StatelessWidget {
                   ],
                 ),
               ),
-
+              SizedBox(height: 20,),
+              _logoutBtn()
             ],
           ),
         )

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tollway/src/screens/home.dart';
 import 'package:tollway/src/screens/promotions.dart';
-import 'package:tollway/src/screens/userInform.dart';
+import 'package:tollway/src/screens/register.dart';
 import 'package:tollway/src/widgets/CustomImage.dart';
 import 'package:tollway/src/widgets/appBg.dart';
 import 'package:tollway/src/widgets/constants.dart';
@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
               fillColor: Colors.white,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
-                Icons.account_circle,
+                Icons.people_outline,
                 color: Colors.black,
               ),
               //hintStyle: kHintTextStyle,
@@ -135,7 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
               fillColor: Colors.white,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
-                Icons.lock,
+                Icons.lock_outlined,
                 color: Colors.black,
               ),
             ),
@@ -372,10 +372,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: <Widget>[
                       SizedBox(height: 30,),
                       CustomImage(
-                        width: 130.0,
-                        height: 130.0,
+                        width: 150.0,
+                        height: 150.0,
                         margin: 0,
-                        image_path: 'assets/logos/logo_white.png',
+                        image_path: 'assets/logos/logo_changed.png',
                       ),
                       SizedBox(
                         height: 20.0,

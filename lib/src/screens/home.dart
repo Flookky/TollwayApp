@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tollway/src/screens/history.dart';
+import 'package:tollway/src/screens/information.dart';
 import 'package:tollway/src/screens/promotions.dart';
 import 'package:tollway/src/screens/user.dart';
 import 'package:tollway/src/widgets/CustomImage.dart';
@@ -10,9 +12,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _pages =[
+    InformationScreen(),
     PromotionsScreen(),
-    UserScreen(),
-    PromotionsScreen(),
+    HistoryScreen(),
     UserScreen(),
   ];
   int _selectedIndex = 0;
