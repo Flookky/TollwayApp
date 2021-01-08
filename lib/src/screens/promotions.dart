@@ -20,24 +20,28 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
               "โปรโมชั่น",
               style: TextStyle(
                   fontSize: 24.0,
-                  color: Colors.red),
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold
+              ),
             ),
             Text(
               "(PROMOTIONS)",
               style: TextStyle(
                   fontSize: 24.0,
-                  color: Colors.red),
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold
+              ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(20,20,20,10),
+              margin: const EdgeInsets.fromLTRB(20,30,20,10),
               child: ConstrainedBox(
                 constraints: const BoxConstraints(minWidth: double.infinity),
                 child: RaisedButton(
-                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                  padding: EdgeInsets.fromLTRB(14, 14, 14, 14),
                   onPressed: couponClick,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                      side: BorderSide(color: Colors.purple)
+                      borderRadius: BorderRadius.circular(25.0),
+                      side: BorderSide(color: Colors.purple, width: 2)
                   ),
                   child: Text(
                     "คูปอง ฿2000 ชำระ ฿1850",
@@ -54,11 +58,11 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
               child: ConstrainedBox(
                 constraints: const BoxConstraints(minWidth: double.infinity),
                 child: RaisedButton(
-                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                  padding: EdgeInsets.fromLTRB(14, 14, 14, 14),
                   onPressed: couponClick,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                      side: BorderSide(color: Colors.purple)
+                      borderRadius: BorderRadius.circular(25.0),
+                      side: BorderSide(color: Colors.purple, width: 2)
                   ),
                   child: Text(
                     "คูปอง ฿1500 ชำระ ฿1400",
@@ -75,11 +79,11 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
               child: ConstrainedBox(
                 constraints: const BoxConstraints(minWidth: double.infinity),
                 child: RaisedButton(
-                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                  padding: EdgeInsets.fromLTRB(14, 14, 14, 14),
                   onPressed: couponClick,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                      side: BorderSide(color: Colors.purple)
+                      borderRadius: BorderRadius.circular(25.0),
+                      side: BorderSide(color: Colors.purple, width: 2)
                   ),
                   child: Text(
                     "คูปอง ฿500 ชำระ ฿400",

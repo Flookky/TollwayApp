@@ -45,19 +45,19 @@ class _HomeScreenState extends State<HomeScreen> {
         type: BottomNavigationBarType.fixed,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home,),
+            icon: Icon(Icons.home_outlined,),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart,),
+            icon: Icon(Icons.shopping_basket_outlined,),
             label: 'Cart',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.article,),
-            label: 'Document',
+            icon: Icon(Icons.article_outlined,),
+            label: 'History',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle,),
+            icon: Icon(Icons.account_box_outlined,),
             label: 'Account',
           ),
         ]
