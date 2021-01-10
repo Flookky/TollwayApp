@@ -8,6 +8,32 @@ class InformationScreen extends StatefulWidget {
 }
 
 class _InformationScreenState extends State<InformationScreen> {
+  final List<String> entries = <String>['A', 'B', 'C'];
+  final List<int> colorCodes = <int>[600, 500, 100];
+  int number = 0;
+  String itemName;
+
+  Widget informList(){
+    return Container(
+      child: Column(
+        children: <Widget>[
+          ListView(
+            children: <Widget>[
+              ListTile(
+                title: Text('Sun'),
+              ),
+              ListTile(
+                title: Text('Moon'),
+              ),
+              ListTile(
+                title: Text('Star'),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +71,10 @@ class _InformationScreenState extends State<InformationScreen> {
                     width: double.infinity,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
-                      color: Colors.black,
+                      color: Colors.white,
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black,
+                          color: Colors.white,
                           blurRadius: 2.0,
                           spreadRadius: 0.0,
                           offset: Offset(1.0, 1.5), // shadow direction: bottom right
@@ -56,7 +82,6 @@ class _InformationScreenState extends State<InformationScreen> {
                       ],
                     ),
                     child: Container(
-
                       margin: EdgeInsets.only(left: 20.0, top: 20.0, right: 20.0),
                       //color: Colors.white,
                       decoration: BoxDecoration(
@@ -77,34 +102,35 @@ class _InformationScreenState extends State<InformationScreen> {
 
                         ],
                       ),
-                      //margin: EdgeInsets.all(20),
                     ),
                   ),
 
-                  Container(
-                    margin: EdgeInsets.only(bottom: 60.0),
-                    child: CustomImage(width: 200, height: 200, margin: 0, image_path: 'assets/images/logo.png',),
-                  )
+                  // Container(
+                  //   margin: EdgeInsets.only(bottom: 60.0),
+                  //   child: CustomImage(width: 200, height: 200, margin: 0, image_path: 'assets/images/logo.png',),
+                  // )
+
                   // Container(
                   //   margin: EdgeInsets.only(left: 20.0, top: 20.0, right: 20.0),
                   //   child: CustomImage(width: 200, height: 200, margin: 0, image_path: 'assets/images/logo.png',),
                   // )
 
-                  // ClipRRect(
-                  //   borderRadius: BorderRadius.circular(40.0),
-                  // )
-
-
                 ],
               )
-              //CustomImage(width: 150, height: 150, margin: 10, image_path: 'assets/images/logo.png',),
-
-
             ],
           ),
 
           SlidingUpPanel(
-            panel: Center(child: Text("This is the sliding Widget"),),
+            backdropEnabled: true,
+            panelSnapping: true,
+            defaultPanelState: PanelState.CLOSED,
+            panel: Center(
+              child: Column(
+                children: <Widget>[
+                  informList()
+                ],
+              )
+            ),
           )
         ],
       ),
