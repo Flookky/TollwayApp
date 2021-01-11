@@ -210,109 +210,115 @@ class _HomeScreenState extends State<HomeScreen> {
               Stack(
                 alignment: Alignment.topCenter,
                 children: <Widget>[
-                  Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
+                  Column(
+                    children: <Widget>[
+                      SizedBox(height: 50,),
+                      Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.0),
                           color: Colors.white,
-                          blurRadius: 2.0,
-                          spreadRadius: 0.0,
-                          offset: Offset(1.0, 1.5), // shadow direction: bottom right
-                        )
-                      ],
-                    ),
-                    child: Container(
-                      margin: EdgeInsets.all(12),
-                      //color: Colors.white,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black,
-                            blurRadius: 2.0,
-                            spreadRadius: 0.0,
-                            offset: Offset(1.0, 1.5), // shadow direction: bottom right
-                          )
-                        ],
-                      ),
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            width: double.infinity,
-                            margin: EdgeInsets.only(top: 10.0, right: 10.0, bottom: 5.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                Icon(
-                                  Icons.cached_outlined,
-                                  color: Colors.black,
-                                  size: 40,
-                                ),
-                                Text(
-                                  '10.00',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
-                                )
-                              ],
-                            ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.white,
+                              blurRadius: 2.0,
+                              spreadRadius: 0.0,
+                              offset: Offset(1.0, 1.5), // shadow direction: bottom right
+                            )
+                          ],
+                        ),
+                        child: Container(
+                          margin: EdgeInsets.all(12),
+                          //color: Colors.white,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black,
+                                blurRadius: 2.0,
+                                spreadRadius: 0.0,
+                                offset: Offset(1.0, 1.5), // shadow direction: bottom right
+                              )
+                            ],
                           ),
-                          CustomImage(width: 150, height: 150, margin: 0, image_path: 'assets/images/qrcode.png',),
-                          Row(
+                          child: Column(
                             children: <Widget>[
                               Container(
-                                  padding: EdgeInsets.only(right: 10, left: 20, bottom: 10, top: 10),
-                                  child: Column(
-                                    children: <Widget>[
-                                      Text(
-                                        'Payment Type',
-                                        style: TextStyle(color: Colors.black, fontSize: 18
-                                          , fontWeight: FontWeight.bold,),
+                                width: double.infinity,
+                                margin: EdgeInsets.only(top: 10.0, right: 10.0, bottom: 5.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.cached_outlined,
+                                      color: Colors.black,
+                                      size: 40,
+                                    ),
+                                    Text(
+                                      '10.00',
+                                      style: TextStyle(
+                                        fontSize: 18,
                                       ),
-                                      Text(
-                                        'Remain Income',
-                                        style: TextStyle(color: Colors.grey, fontSize: 16
-                                          , fontWeight: FontWeight.bold,),
-                                      ),
-                                    ],
-                                  )
-                              ),
-                              Spacer(flex: 2),
-                              Container(
-                                padding: EdgeInsets.all(5),
-                                child: FlatButton(
-                                  child: Text(
-                                    'Change',
-                                    style: TextStyle(color: Colors.blueAccent, fontSize: 16,),
-                                  ),
-                                  onPressed: (){
-                                    changePayDialog();
-                                  }
+                                    )
+                                  ],
                                 ),
                               ),
+                              CustomImage(width: 150, height: 150, margin: 0, image_path: 'assets/images/qrcode.png',),
+                              Row(
+                                children: <Widget>[
+                                  Container(
+                                      padding: EdgeInsets.only(right: 10, left: 20, bottom: 10, top: 10),
+                                      child: Column(
+                                        children: <Widget>[
+                                          Text(
+                                            'Payment Type',
+                                            style: TextStyle(color: Colors.black, fontSize: 18
+                                              , fontWeight: FontWeight.bold,),
+                                          ),
+                                          Text(
+                                            'Remain Income',
+                                            style: TextStyle(color: Colors.grey, fontSize: 16
+                                              , fontWeight: FontWeight.bold,),
+                                          ),
+                                        ],
+                                      )
+                                  ),
+                                  Spacer(flex: 2),
+                                  Container(
+                                    padding: EdgeInsets.all(5),
+                                    child: FlatButton(
+                                        child: Text(
+                                          'Change',
+                                          style: TextStyle(color: Colors.blueAccent, fontSize: 16,),
+                                        ),
+                                        onPressed: (){
+                                          changePayDialog();
+                                        }
+                                    ),
+                                  ),
+                                ],
+                              )
                             ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                      top: -50,
-                      child: CircleAvatar(
-                        child: ClipRRect(
-                          //child: CustomImage(width: 50, height: 50, margin: 0, image_path: 'assets/icons/barcode.png',),
-                          child: Icon(
-                            Icons.qr_code_scanner,
-                            color: Colors.white,
-                            size: 50,
                           ),
                         ),
+                      ),
+
+                    ],
+                  ),
+                  Positioned(
+                      top: 15,
+                      child: CircleAvatar(
+                        child: ClipRRect(
+                          child: CustomImage(width: 80, height: 80, margin: 0, image_path: 'assets/logos/logo_changed.png',),
+                          // child: Icon(
+                          //   Icons.qr_code_scanner,
+                          //   color: Colors.white,
+                          //   size: 50,
+                          // ),
+                        ),
                         radius: 45,
-                        backgroundColor: Colors.purple[800],
+                        backgroundColor: Colors.purple[400],
                       )
                   )
                 ],

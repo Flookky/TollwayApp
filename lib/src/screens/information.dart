@@ -210,6 +210,9 @@ class _InformationScreenState extends State<InformationScreen> {
             ],
           ),
 
+
+
+
           SlidingUpPanel(
             backdropEnabled: true,
             panelSnapping: true,
