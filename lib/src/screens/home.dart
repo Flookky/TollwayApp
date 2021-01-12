@@ -24,6 +24,8 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
   final key = GlobalKey<AnimatedListState>();
   final items = List.from(Data.paymentList);
+  final double tabBarHeight = 80;
+  final panelController = PanelController();
 
   final List<String> payMethodList = [
     "Coupon","Credit Card"
@@ -155,16 +157,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget dragIcon() => Container(
-    margin: EdgeInsets.all(10),
-    decoration: BoxDecoration(
-      color: Colors.black.withOpacity(0.3),
-      borderRadius: BorderRadius.circular(8),
-    ),
-    width: 52,
-    height: 8,
-  );
-
   Widget routeScreen() => _pages[_selectedIndex];
 
   Widget bottomNav() => BottomNavigationBar(
@@ -195,159 +187,237 @@ class _HomeScreenState extends State<HomeScreen> {
       ]
   );
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          Column(
-            children: <Widget>[
-              Container(
-                width: double.infinity,
-                child: Row(
-                  children: <Widget>[
-                    SizedBox(width: 75, height: 150,),
-                    Column(
-                      children: <Widget>[
-                        CustomImage(width: 50, height: 50, margin: 10, image_path: 'assets/icons/qr-code-scan.png',),
-                        Text("Scan")
-                      ],
-                    ),
-                    Spacer(flex: 2),
-                    Column(
-                      children: <Widget>[
-                        CustomImage(width: 50, height: 50, margin: 10, image_path: 'assets/icons/barcode.png',),
-                        Text("Pay")
-                      ],
-                    ),
-                    SizedBox(width: 75, height: 150,),
-                  ],
-                ),
-              ),
-              //Box of Payment Detail
-              Stack(
-                alignment: Alignment.topCenter,
+  Widget dragIcon() => Container(
+    margin: EdgeInsets.all(10),
+    decoration: BoxDecoration(
+      color: Colors.black.withOpacity(0.3),
+      borderRadius: BorderRadius.circular(8),
+    ),
+    width: 52,
+    height: 8,
+  );
+
+  Widget buildSlidingPanel({
+    @required PanelController panelController,
+    @required ScrollController scrollController,
+  }) =>
+      DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          appBar: buildTabBar(
+            onClicked: panelController.open,
+          ),
+          body: Container(
+            child: Column(
+              children: <Widget>[
+                Text('Hello World')
+              ],
+            ),
+          ),
+        ),
+      );
+
+  Widget buildTabBar({
+    @required VoidCallback onClicked,
+  }) =>
+      PreferredSize(
+        preferredSize: Size.fromHeight(tabBarHeight - 8),
+        child: GestureDetector(
+          onTap: onClicked,
+          child: AppBar(
+            title: dragIcon(), // Icon(Icons.drag_handle),
+            centerTitle: true,
+          ),
+        ),
+      );
+
+  Widget _mainWidget(){
+    return Stack(
+      children: <Widget>[
+        Column(
+          children: <Widget>[
+            Container(
+              width: double.infinity,
+              child: Row(
                 children: <Widget>[
+                  SizedBox(width: 75, height: 150,),
                   Column(
                     children: <Widget>[
-                      SizedBox(height: 50,),
-                      Container(
-                        width: double.infinity,
+                      CustomImage(width: 50, height: 50, margin: 10, image_path: 'assets/icons/qr-code-scan.png',),
+                      Text("Scan")
+                    ],
+                  ),
+                  Spacer(flex: 2),
+                  Column(
+                    children: <Widget>[
+                      CustomImage(width: 50, height: 50, margin: 10, image_path: 'assets/icons/barcode.png',),
+                      Text("Pay")
+                    ],
+                  ),
+                  SizedBox(width: 75, height: 150,),
+                ],
+              ),
+            ),
+            //Box of Payment Detail
+            Stack(
+              alignment: Alignment.topCenter,
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    SizedBox(height: 50,),
+                    Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.white,
+                            blurRadius: 2.0,
+                            spreadRadius: 0.0,
+                            offset: Offset(1.0, 1.5), // shadow direction: bottom right
+                          )
+                        ],
+                      ),
+                      child: Container(
+                        margin: EdgeInsets.all(12),
+                        //color: Colors.white,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8.0),
                           color: Colors.white,
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.white,
+                              color: Colors.black,
                               blurRadius: 2.0,
                               spreadRadius: 0.0,
                               offset: Offset(1.0, 1.5), // shadow direction: bottom right
                             )
                           ],
                         ),
-                        child: Container(
-                          margin: EdgeInsets.all(12),
-                          //color: Colors.white,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black,
-                                blurRadius: 2.0,
-                                spreadRadius: 0.0,
-                                offset: Offset(1.0, 1.5), // shadow direction: bottom right
-                              )
-                            ],
-                          ),
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                width: double.infinity,
-                                margin: EdgeInsets.only(top: 10.0, right: 10.0, bottom: 5.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: <Widget>[
-                                    Icon(
-                                      Icons.cached_outlined,
-                                      color: Colors.black,
-                                      size: 40,
-                                    ),
-                                    Text(
-                                      '10.00',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              CustomImage(width: 150, height: 150, margin: 0, image_path: 'assets/images/qrcode.png',),
-                              Row(
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              width: double.infinity,
+                              margin: EdgeInsets.only(top: 10.0, right: 10.0, bottom: 5.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
                                 children: <Widget>[
-                                  Container(
-                                      padding: EdgeInsets.only(right: 10, left: 20, bottom: 10, top: 10),
-                                      child: Column(
-                                        children: <Widget>[
-                                          Text(
-                                            'Payment Type',
-                                            style: TextStyle(color: Colors.black, fontSize: 18
-                                              , fontWeight: FontWeight.bold,),
-                                          ),
-                                          Text(
-                                            'Remain Income',
-                                            style: TextStyle(color: Colors.grey, fontSize: 16
-                                              , fontWeight: FontWeight.bold,),
-                                          ),
-                                        ],
-                                      )
+                                  Icon(
+                                    Icons.cached_outlined,
+                                    color: Colors.black,
+                                    size: 40,
                                   ),
-                                  Spacer(flex: 2),
-                                  Container(
-                                    padding: EdgeInsets.all(5),
-                                    child: FlatButton(
-                                        child: Text(
-                                          'Change',
-                                          style: TextStyle(color: Colors.blueAccent, fontSize: 16,),
-                                        ),
-                                        onPressed: (){
-                                          Navigator.of(context)
-                                              .push(
-                                              MaterialPageRoute(builder: (context) => PaymentMethodScreen())
-                                          );
-                                        }
+                                  Text(
+                                    '10.00',
+                                    style: TextStyle(
+                                      fontSize: 18,
                                     ),
-                                  ),
+                                  )
                                 ],
                               ),
-                            ],
-                          ),
+                            ),
+                            CustomImage(width: 150, height: 150, margin: 0, image_path: 'assets/images/qrcode.png',),
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                    padding: EdgeInsets.only(right: 10, left: 20, bottom: 10, top: 10),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Text(
+                                          'Payment Type',
+                                          style: TextStyle(color: Colors.black, fontSize: 18
+                                            , fontWeight: FontWeight.bold,),
+                                        ),
+                                        Text(
+                                          'Remain Income',
+                                          style: TextStyle(color: Colors.grey, fontSize: 16
+                                            , fontWeight: FontWeight.bold,),
+                                        ),
+                                      ],
+                                    )
+                                ),
+                                Spacer(flex: 2),
+                                Container(
+                                  padding: EdgeInsets.all(5),
+                                  child: FlatButton(
+                                      child: Text(
+                                        'Change',
+                                        style: TextStyle(color: Colors.blueAccent, fontSize: 16,),
+                                      ),
+                                      onPressed: (){
+                                        Navigator.of(context)
+                                            .push(
+                                            MaterialPageRoute(builder: (context) => PaymentMethodScreen())
+                                        );
+                                      }
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                  Positioned(
-                      top: 15,
-                      child: CircleAvatar(
-                        child: ClipRRect(
-                          child: CustomImage(width: 80, height: 80, margin: 0, image_path: 'assets/logos/logo_changed.png',),
-                          // child: Icon(
-                          //   Icons.qr_code_scanner,
-                          //   color: Colors.white,
-                          //   size: 50,
-                          // ),
-                        ),
-                        radius: 45,
-                        backgroundColor: Colors.purple[400],
-                      )
-                  )
-                ],
-              ),
-            ],
+                    ),
+                  ],
+                ),
+                Positioned(
+                    top: 15,
+                    child: CircleAvatar(
+                      child: ClipRRect(
+                        child: CustomImage(width: 80, height: 80, margin: 0, image_path: 'assets/logos/logo_changed.png',),
+                        // child: Icon(
+                        //   Icons.qr_code_scanner,
+                        //   color: Colors.white,
+                        //   size: 50,
+                        // ),
+                      ),
+                      radius: 45,
+                      backgroundColor: Colors.purple[400],
+                    )
+                )
+              ],
+            ),
+          ],
+        ),
+        //showPaymentMethod(),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    BorderRadiusGeometry radius = BorderRadius.only(topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0));
+
+    return Scaffold(
+      body: SlidingUpPanel(
+        backdropEnabled: true,
+
+        borderRadius: radius,
+        controller: panelController,
+        //maxHeight: MediaQuery.of(context).size.height - tabBarHeight,
+        // panelBuilder: (scrollController) => buildSlidingPanel(
+        //   scrollController: scrollController,
+        //   panelController: panelController,
+        // ),
+        panel: Center(
+          child: Text('Hello World'),
+        ),
+        collapsed: Container(
+          decoration: BoxDecoration(
+            color: Colors.purple[400], borderRadius: radius
           ),
-          //showPaymentMethod(),
-        ],
-      ),
+          child: Container(
+            alignment: Alignment.topCenter,
+            child: FlatButton(
+              onPressed: (){
+                panelController.open;
+              },
+              child: dragIcon(),
+            ),
+          ),
+        ),
+        body: _mainWidget(),
+      )
     );
 
 
