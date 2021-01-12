@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:tollway/src/models/data.dart';
+import 'package:tollway/src/screens/change_payment.dart';
 import 'package:tollway/src/screens/history.dart';
 import 'package:tollway/src/screens/information.dart';
 import 'package:tollway/src/screens/promotions.dart';
 import 'package:tollway/src/screens/user.dart';
 import 'package:tollway/src/widgets/CustomImage.dart';
 import 'package:tollway/src/widgets/dialogPayMethod.dart';
+import 'package:tollway/src/widgets/payMethodWidget.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -19,6 +22,8 @@ class _HomeScreenState extends State<HomeScreen> {
     HistoryScreen(),
     UserScreen(),
   ];
+  final key = GlobalKey<AnimatedListState>();
+  final items = List.from(Data.paymentList);
 
   final List<String> payMethodList = [
     "Coupon","Credit Card"
@@ -88,8 +93,20 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
-                        //payMethod()
-                        //paymentList[0]
+                        Container(
+                          alignment: Alignment.bottomCenter,
+                          width: double.infinity,
+                          child: RaisedButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12.0),
+                                side: BorderSide(color: Colors.purple[800])
+                            ),
+                            child: Text('+ Add Credit/Debit cards'),
+                            onPressed: (){
+
+                            },
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -207,6 +224,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
+              //Box of Payment Detail
               Stack(
                 alignment: Alignment.topCenter,
                 children: <Widget>[
@@ -293,17 +311,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                           style: TextStyle(color: Colors.blueAccent, fontSize: 16,),
                                         ),
                                         onPressed: (){
-                                          changePayDialog();
+                                          Navigator.of(context)
+                                              .push(
+                                              MaterialPageRoute(builder: (context) => PaymentMethodScreen())
+                                          );
                                         }
                                     ),
                                   ),
                                 ],
-                              )
+                              ),
                             ],
                           ),
                         ),
                       ),
-
                     ],
                   ),
                   Positioned(
@@ -325,6 +345,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
+          //showPaymentMethod(),
         ],
       ),
     );
