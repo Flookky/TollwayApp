@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tollway/src/models/data.dart';
+import 'package:tollway/src/widgets/promoHistoryWidget.dart';
 
 class HistoryScreen extends StatefulWidget {
   @override
@@ -9,34 +11,55 @@ class _HistoryScreenState extends State<HistoryScreen> {
   final List<String> entries = <String>['A', 'B', 'C'];
   final List<int> colorCodes = <int>[600, 500, 100];
   int number = 0;
+  final key = GlobalKey<AnimatedListState>();
+  final items = List.from(Data.promoHistoryList);
+
+  Widget buildItem(item, int index, Animation<double> animation) =>
+      PromoHistoryItemWidget(
+        item: item,
+        animation: animation,
+        onClicked: () => {
+
+        },
+      );
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: 15,
-      itemBuilder: (BuildContext context, int index){
-        return ListTile(
-          title: Text("Menu ${index+1}"),
-        );
-      },
-    );
-  }
-}
-
-class listDataItem extends StatelessWidget{
-  String itemName;
-  listDataItem(this.itemName);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        child: Row(
+    return Scaffold(
+      body: Container(
+        child: Column(
           children: <Widget>[
-            CircleAvatar(
-              child: Text(itemName[0]),
+            Row(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(left: 20.0, top: 15.0, bottom: 5.0, right: 20.0),
+                  child: Text(
+                    'Remain Cash',
+                    style: TextStyle(
+                      fontSize: 18
+                    ),
+                  ),
+                ),
+                Spacer(flex: 2,),
+                Container(
+                  margin: EdgeInsets.only(left: 20.0, top: 15.0, bottom: 5.0, right: 20.0),
+                  child: Text(
+                    '350฿',
+                    style: TextStyle(
+                        fontSize: 18
+                    ),
+                  ),
+                ),
+              ],
             ),
-            Text(itemName,style: TextStyle(fontSize: 20.0),)
+            Expanded(
+              child: AnimatedList(
+                key: key,
+                initialItemCount: items.length,
+                itemBuilder: (context, index, animation) =>
+                    buildItem(items[index], index, animation),
+              ),
+            ),
           ],
         ),
       ),

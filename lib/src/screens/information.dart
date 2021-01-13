@@ -94,9 +94,6 @@ class _InformationScreenState extends State<InformationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Information'),
-      ),
       body: Container(
         child: Column(
           children: <Widget>[

@@ -188,33 +188,30 @@ class _HomeScreenState extends State<HomeScreen> {
   );
 
   Widget dragIcon() => Container(
-    margin: EdgeInsets.all(10),
-    decoration: BoxDecoration(
-      color: Colors.black.withOpacity(0.3),
-      borderRadius: BorderRadius.circular(8),
-    ),
-    width: 52,
-    height: 8,
-  );
+      margin: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.8),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      width: 52,
+      height: 8,
+      // child: FlatButton(
+      //   onPressed: (){
+      //     panelController.open();
+      //   },
+      // ),
+    );
 
   Widget buildSlidingPanel({
     @required PanelController panelController,
     @required ScrollController scrollController,
   }) =>
-      DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          appBar: buildTabBar(
-            onClicked: panelController.open,
-          ),
-          body: Container(
-            child: Column(
-              children: <Widget>[
-                Text('Hello World')
-              ],
-            ),
-          ),
-        ),
+      Scaffold(
+        // appBar: AppBar(
+        //   title: Text('Tollway'),
+        // ),
+        body: _pages[_selectedIndex],
+        bottomNavigationBar: bottomNav(),
       );
 
   Widget buildTabBar({
@@ -390,18 +387,26 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       body: SlidingUpPanel(
+        backdropTapClosesPanel: true,
         backdropEnabled: true,
 
         borderRadius: radius,
         controller: panelController,
-        //maxHeight: MediaQuery.of(context).size.height - tabBarHeight,
-        // panelBuilder: (scrollController) => buildSlidingPanel(
-        //   scrollController: scrollController,
-        //   panelController: panelController,
-        // ),
-        panel: Center(
-          child: Text('Hello World'),
+        maxHeight: MediaQuery.of(context).size.height - tabBarHeight,
+        panelBuilder: (scrollController) => buildSlidingPanel(
+          scrollController: scrollController,
+          panelController: panelController,
         ),
+        // panel: Column(
+        //   crossAxisAlignment: CrossAxisAlignment.center,
+        //   mainAxisSize: MainAxisSize.max,
+        //   mainAxisAlignment: MainAxisAlignment.end,
+        //   children: <Widget>[
+        //     //_pages[_selectedIndex],
+        //     bottomNav()
+        //   ],
+        // ),
+        //Sliding up Icon
         collapsed: Container(
           decoration: BoxDecoration(
             color: Colors.purple[400], borderRadius: radius
@@ -409,9 +414,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Container(
             alignment: Alignment.topCenter,
             child: FlatButton(
-              onPressed: (){
-                panelController.open;
-              },
+              onPressed:() => openPanel(),
               child: dragIcon(),
             ),
           ),
@@ -419,37 +422,9 @@ class _HomeScreenState extends State<HomeScreen> {
         body: _mainWidget(),
       )
     );
+  }
 
-
-    // return Scaffold(
-    //   body: _pages[_selectedIndex],
-    //   bottomNavigationBar: BottomNavigationBar(
-    //     backgroundColor: Colors.purple[200],
-    //     currentIndex: _selectedIndex,
-    //     selectedItemColor: Theme.of(context).primaryColor,
-    //     unselectedItemColor: Colors.grey,
-    //     onTap: _onItemTapped,
-    //     type: BottomNavigationBarType.shifting,
-    //
-    //     items: <BottomNavigationBarItem>[
-    //       BottomNavigationBarItem(
-    //         icon: Icon(Icons.home_outlined,),
-    //         label: 'Home',
-    //       ),
-    //       BottomNavigationBarItem(
-    //         icon: Icon(Icons.shopping_basket_outlined,),
-    //         label: 'Cart',
-    //       ),
-    //       BottomNavigationBarItem(
-    //         icon: Icon(Icons.article_outlined,),
-    //         label: 'History',
-    //       ),
-    //       BottomNavigationBarItem(
-    //         icon: Icon(Icons.account_box_outlined,),
-    //         label: 'Account',
-    //       ),
-    //     ]
-    //   ),
-    // );
+  void openPanel(){
+    panelController.open();
   }
 }

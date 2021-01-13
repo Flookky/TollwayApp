@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
               fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
-              hintText: 'Enter your Username',
+              hintText: 'Username',
               hintStyle: TextStyle(fontSize: 16),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(23),
