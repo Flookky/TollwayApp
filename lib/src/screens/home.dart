@@ -413,10 +413,25 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           child: Container(
             alignment: Alignment.topCenter,
-            child: FlatButton(
-              onPressed:() => openPanel(),
-              child: dragIcon(),
-            ),
+            child: Column(
+              children: <Widget>[
+                FlatButton(
+                  onPressed:() => openPanel(),
+                  child: dragIcon(),
+                ),
+                FlatButton(
+                  padding: EdgeInsets.only(bottom: 20.0),
+                  onPressed:() => openPanel(),
+                  child: Text(
+                    'Click to Homepage',
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white
+                    ),
+                  )
+                ),
+              ],
+            )
           ),
         ),
         body: _mainWidget(),

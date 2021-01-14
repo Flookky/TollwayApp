@@ -14,17 +14,11 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _rememberMe = false;
-  final kBoxDecorationStyle = BoxDecoration(
-    color: Color(0xFFBA68C8),
-    borderRadius: BorderRadius.circular(10.0),
-    boxShadow: [
-      BoxShadow(
-        color: Colors.black12,
-        blurRadius: 6.0,
-        offset: Offset(0, 2),
-      ),
-    ],
-  );
+  final userController = TextEditingController();
+  final passController = TextEditingController();
+  String _username = "";
+  String _password = "";
+  bool rememberMe = false;
 
   Widget _buildUsernameTF() {
     return Column(
@@ -38,16 +32,15 @@ class _LoginScreenState extends State<LoginScreen> {
               color: Colors.white,
               fontSize: 16
             ),
-            //style: kLabelStyle,
           ),
         ),
         //SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
-          //decoration: kBoxDecorationStyle,
           height: 70.0,
           child: TextField(
             keyboardType: TextInputType.text,
+            controller: userController,
             style: TextStyle(
               color: Colors.black,
               fontFamily: 'OpenSans',
@@ -69,32 +62,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 Icons.people_outline,
                 color: Colors.black,
               ),
-              //hintStyle: kHintTextStyle,
             ),
           ),
         ),
-        // Container(
-        //   alignment: Alignment.centerLeft,
-        //   decoration: kBoxDecorationStyle,
-        //   height: 60.0,
-        //   child: TextField(
-        //     keyboardType: TextInputType.text,
-        //     style: TextStyle(
-        //       color: Colors.white,
-        //       fontFamily: 'OpenSans',
-        //     ),
-        //     decoration: InputDecoration(
-        //       border: InputBorder.none,
-        //       contentPadding: EdgeInsets.only(top: 14.0),
-        //       prefixIcon: Icon(
-        //         Icons.account_circle,
-        //         color: Colors.white,
-        //       ),
-        //       hintText: 'Enter your Username',
-        //       hintStyle: kHintTextStyle,
-        //     ),
-        //   ),
-        // ),
       ],
     );
   }
@@ -118,6 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
           height: 70.0,
           child: TextField(
             obscureText: true,
+            controller: passController,
             style: TextStyle(
               color: Colors.black,
               fontFamily: 'OpenSans',
@@ -197,12 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () {
-          Navigator.of(context)
-              .push(
-              MaterialPageRoute(builder: (context) => HomeScreen())
-          );
-        },
+        onPressed: () => loginCheck(),
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
@@ -321,34 +287,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildSignupBtn() {
-    return GestureDetector(
-      onTap: () => print('Sign Up Button Pressed'),
-      child: RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(
-              text: 'Don\'t have an Account? ',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            TextSpan(
-              text: 'Sign Up',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -420,5 +358,24 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  void loginCheck(){
+    _username = userController.text;
+    _password = passController.text;
+    Navigator.of(context)
+        .push(
+        MaterialPageRoute(builder: (context) => HomeScreen())
+    );
+    // if(_username.isEmpty){
+    //
+    // } else if(_password.isEmpty){
+    //
+    // } else {
+    //   Navigator.of(context)
+    //       .push(
+    //       MaterialPageRoute(builder: (context) => HomeScreen())
+    //   );
+    // }
   }
 }
