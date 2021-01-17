@@ -1,12 +1,9 @@
+import 'package:fluttertoast/fluttertoast.dart';
 
-import 'package:flutter/cupertino.dart';
+void toast_short(String message){
+  Fluttertoast.showToast(msg: message, toastLength: Toast.LENGTH_SHORT, );
+}
 
-class ToastCall{
-  // final String message;
-  //
-  // const ToastCall({
-  //
-  // })
-  //
-  //  : super(key: key);
+void toast_long(String message){
+  Fluttertoast.showToast(msg: message, toastLength: Toast.LENGTH_SHORT, );
 }

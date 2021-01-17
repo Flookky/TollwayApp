@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:tollway/src/utils/control.dart';
+import 'package:tollway/src/utils/toast.call.dart';
 import 'package:tollway/src/widgets/CustomImage.dart';
 import 'package:tollway/src/widgets/appBg.dart';
 import 'package:tollway/src/widgets/constants.dart';
@@ -11,17 +13,28 @@ class UserInform extends StatefulWidget {
 
 class _UserInformState extends State<UserInform> {
   final double boxHeight = 30.0;
-  final kBoxDecorationStyle = BoxDecoration(
-    color: Color(0xFFBA68C8),
-    borderRadius: BorderRadius.circular(10.0),
-    boxShadow: [
-      BoxShadow(
-        color: Colors.black12,
-        blurRadius: 6.0,
-        offset: Offset(0, 2),
-      ),
-    ],
-  );
+  final userController = TextEditingController();
+  final passController = TextEditingController();
+  final repassController = TextEditingController();
+  final emailController = TextEditingController();
+  String _username = "";
+  String _password = "";
+  String _repassword = "";
+  String _email = "";
+  bool _isHidden_password = true;
+  bool _isHidden_repassword = true;
+
+  void _toggleVisibility(){
+    setState(() {
+      _isHidden_password = !_isHidden_password;
+    });
+  }
+
+  void _toggleVisibility2(){
+    setState(() {
+      _isHidden_repassword = !_isHidden_repassword;
+    });
+  }
 
   Widget usernameField(){
     return Column(
@@ -29,8 +42,10 @@ class _UserInformState extends State<UserInform> {
       children: <Widget>[
         Container(
           alignment: Alignment.centerLeft,
+          margin: EdgeInsets.only(left: 20.0, right: 20.0),
           child: TextField(
-            obscureText: true,
+            keyboardType: TextInputType.text,
+            controller: userController,
             style: TextStyle(
               color: Colors.black,
               //fontFamily: 'OpenSans',
@@ -39,14 +54,14 @@ class _UserInformState extends State<UserInform> {
               hintText: 'Username',
               hintStyle: TextStyle(fontSize: 16),
               border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(23),
+                  borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide(
                     width: 3,
                   )
               ),
               filled: true,
               fillColor: Colors.white,
-              contentPadding: EdgeInsets.only(left: 20.0,top: 14.0),
+              contentPadding: EdgeInsets.only(left: 20.0, top: 14.0),
               prefixIcon: Icon(
                 Icons.people_outline,
                 color: Colors.black,
@@ -64,8 +79,10 @@ class _UserInformState extends State<UserInform> {
       children: <Widget>[
         Container(
           alignment: Alignment.centerLeft,
+          margin: EdgeInsets.only(left: 20.0, right: 20.0),
           child: TextField(
-            obscureText: true,
+            obscureText: _isHidden_password,
+            controller: passController,
             style: TextStyle(
               color: Colors.black,
               //fontFamily: 'OpenSans',
@@ -74,17 +91,21 @@ class _UserInformState extends State<UserInform> {
               hintText: 'Password',
               hintStyle: TextStyle(fontSize: 16),
               border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(23),
+                  borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide(
                     width: 3,
                   )
               ),
               filled: true,
               fillColor: Colors.white,
-              contentPadding: EdgeInsets.only(left: 20.0,top: 14.0),
+              contentPadding: EdgeInsets.only(left: 20.0, top: 14.0),
               prefixIcon: Icon(
                 Icons.lock_outlined,
                 color: Colors.black,
+              ),
+              suffixIcon: IconButton(
+                onPressed: _toggleVisibility,
+                icon: _isHidden_password ? Icon(Icons.visibility_off_outlined) : Icon(Icons.visibility_outlined),
               ),
             ),
           ),
@@ -99,8 +120,10 @@ class _UserInformState extends State<UserInform> {
       children: <Widget>[
         Container(
           alignment: Alignment.centerLeft,
+          margin: EdgeInsets.only(left: 20.0, right: 20.0),
           child: TextField(
-            obscureText: true,
+            obscureText: _isHidden_repassword,
+            controller: repassController,
             style: TextStyle(
               color: Colors.black,
               //fontFamily: 'OpenSans',
@@ -109,18 +132,22 @@ class _UserInformState extends State<UserInform> {
               hintText: 'Re Password',
               hintStyle: TextStyle(fontSize: 16),
               border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(23),
+                  borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide(
                     width: 3,
                   )
               ),
               filled: true,
               fillColor: Colors.white,
-              contentPadding: EdgeInsets.only(left: 47.0,top: 14.0),
-              // prefixIcon: Icon(
-              //   Icons.lock_outlined,
-              //   color: Colors.black,
-              // ),
+              contentPadding: EdgeInsets.only(left: 47.0, top: 14.0),
+              prefixIcon: Icon(
+                Icons.lock_open_outlined,
+                color: Colors.black,
+              ),
+              suffixIcon: IconButton(
+                onPressed: _toggleVisibility2,
+                icon: _isHidden_repassword ? Icon(Icons.visibility_off_outlined) : Icon(Icons.visibility_outlined),
+              ),
             ),
           ),
         )
@@ -134,8 +161,10 @@ class _UserInformState extends State<UserInform> {
       children: <Widget>[
         Container(
           alignment: Alignment.centerLeft,
+          margin: EdgeInsets.only(left: 20.0, right: 20.0),
           child: TextField(
-            obscureText: true,
+            keyboardType: TextInputType.emailAddress,
+            controller: emailController,
             style: TextStyle(
               color: Colors.black,
               //fontFamily: 'OpenSans',
@@ -144,62 +173,16 @@ class _UserInformState extends State<UserInform> {
               hintText: 'Email',
               hintStyle: TextStyle(fontSize: 16),
               border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(23),
+                  borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide(
                     width: 3,
                   )
               ),
               filled: true,
               fillColor: Colors.white,
-              contentPadding: EdgeInsets.only(left: 20.0,top: 14.0),
+              contentPadding: EdgeInsets.only(left: 20.0, top: 14.0),
               prefixIcon: Icon(
                 Icons.email_outlined,
-                color: Colors.black,
-              ),
-            ),
-          ),
-        )
-      ],
-    );
-  }
-
-  Widget telField(){
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(left: 12),
-          child: Text(
-            'Tel',
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 16
-            ),
-            //style: kLabelStyle,
-          ),
-        ),
-        Container(
-          alignment: Alignment.centerLeft,
-          child: TextField(
-            obscureText: true,
-            style: TextStyle(
-              color: Colors.black,
-              //fontFamily: 'OpenSans',
-            ),
-            decoration: InputDecoration(
-              hintText: 'Tel',
-              hintStyle: TextStyle(fontSize: 16),
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(23),
-                  borderSide: BorderSide(
-                    width: 3,
-                  )
-              ),
-              filled: true,
-              fillColor: Colors.white,
-              contentPadding: EdgeInsets.only(left: 20.0,top: 14.0),
-              prefixIcon: Icon(
-                Icons.phone,
                 color: Colors.black,
               ),
             ),
@@ -212,15 +195,11 @@ class _UserInformState extends State<UserInform> {
   Widget _buildRegisterBtn() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 0.0),
+      margin: EdgeInsets.only(left: 20.0, right: 20.0),
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () {
-          Navigator.of(context)
-              .push(
-              MaterialPageRoute(builder: (context) => UserInform())
-          );
-        },
+        onPressed: _register,
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
@@ -228,7 +207,7 @@ class _UserInformState extends State<UserInform> {
         ),
         color: Colors.purple[900],
         child: Text(
-          'REGISTER',
+          'Submit',
           style: TextStyle(
             color: Colors.white,
             letterSpacing: 1.5,
@@ -256,13 +235,21 @@ class _UserInformState extends State<UserInform> {
                   child: SingleChildScrollView(
                     physics: AlwaysScrollableScrollPhysics(),
                     padding: EdgeInsets.symmetric(
-                      horizontal: 40.0,
+                      horizontal: 10.0,
                       vertical: 20.0,
                     ),
                     child: Column(
-                      // mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        SizedBox(height: 20,),
+                        SizedBox(height: 10,),
+                        Container(
+                          width: double.infinity,
+                          alignment: Alignment.topLeft,
+                          child: IconButton(
+                            icon: Icon(Icons.arrow_back),
+                            iconSize: 25,
+                            color: Colors.white,
+                            onPressed: () => Navigator.of(context).pop(true)),
+                        ),
                         CustomImage(
                           width: 150.0,
                           height: 150.0,
@@ -293,24 +280,38 @@ class _UserInformState extends State<UserInform> {
                     ),
                   ),
                 ),
-                Positioned(
-                  child: AppBar(
-                    //title: Text("Transparent AppBar"),
-                    backgroundColor: Colors.transparent,
-                    elevation: 0,
-                    // actions: <Widget>[
-                    //   IconButton(
-                    //     icon: Icon(Icons.share),
-                    //     onPressed: () {},
-                    //     tooltip: 'Share',
-                    //   ),
-                    // ],
-                  ),
-                )
               ],
             ),
           )
       ),
     );
+  }
+
+  void _register(){
+    _username = userController.text;
+    _password = passController.text;
+    _repassword = repassController.text;
+    _email = emailController.text;
+
+    if(_username.isEmpty){
+      toast_short('Please Fill Username');
+    } else if(_password.isEmpty){
+      toast_short('Please Fill Password');
+    } else if(_repassword.isEmpty){
+      toast_short('Please Fill Repassword');
+    } else if(_email.isEmpty){
+      toast_short('Please Fill Email');
+    } else if(_password != _repassword){
+      toast_short('Password and Repassword must be equal');
+    } else if(!(_email.contains(Control().hotmail) || _email.contains(Control().gmail))){
+      toast_short('Email must have hotmail or gmail');
+    } else if(!Control().validCharacters.hasMatch(_email)){
+      toast_short('Special Character is not allow');
+    } else {
+      toast_short('Register Completed');
+      //Navigator.of(context).pop(true);
+    }
+
+
   }
 }

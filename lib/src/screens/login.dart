@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tollway/src/screens/home.dart';
 import 'package:tollway/src/screens/promotions.dart';
 import 'package:tollway/src/screens/register.dart';
+import 'package:tollway/src/utils/toast.call.dart';
 import 'package:tollway/src/widgets/CustomImage.dart';
 import 'package:tollway/src/widgets/appBg.dart';
 import 'package:tollway/src/widgets/constants.dart';
@@ -19,6 +21,13 @@ class _LoginScreenState extends State<LoginScreen> {
   String _username = "";
   String _password = "";
   bool rememberMe = false;
+  bool _isHidden = true;
+
+  void _toggleVisibility(){
+    setState(() {
+      _isHidden = !_isHidden;
+    });
+  }
 
   Widget _buildUsernameTF() {
     return Column(
@@ -49,19 +58,15 @@ class _LoginScreenState extends State<LoginScreen> {
               hintText: 'Username',
               hintStyle: TextStyle(fontSize: 16),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(23),
-                borderSide: BorderSide(
-                  width: 3,
-                  //style: BorderStyle.none
-                )
+                borderRadius: BorderRadius.circular(8),
               ),
-              filled: true,
-              fillColor: Colors.white,
-              contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
                 Icons.people_outline,
                 color: Colors.black,
               ),
+              filled: true,
+              fillColor: Colors.white,
+              contentPadding: EdgeInsets.only(top: 14.0),
             ),
           ),
         ),
@@ -69,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildPasswordTF() {
+  Widget _buildPasswordTF(String hintText) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -87,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
           alignment: Alignment.centerLeft,
           height: 70.0,
           child: TextField(
-            obscureText: true,
+            obscureText: _isHidden,
             controller: passController,
             style: TextStyle(
               color: Colors.black,
@@ -97,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
               hintText: 'Enter your Password',
               hintStyle: TextStyle(fontSize: 16),
               border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(23),
+                  borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide(
                     width: 3,
                   )
@@ -109,6 +114,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 Icons.lock_outlined,
                 color: Colors.black,
               ),
+              suffixIcon: hintText == "Password" ? IconButton(
+                onPressed: _toggleVisibility,
+                icon: _isHidden ? Icon(Icons.visibility_off_outlined) : Icon(Icons.visibility_outlined),
+              ) : null,
             ),
           ),
         ),
@@ -124,6 +133,9 @@ class _LoginScreenState extends State<LoginScreen> {
         padding: EdgeInsets.only(right: 0.0),
         child: Text(
           'Forgot Password?',
+          style: TextStyle(
+            color: Colors.white
+          ),
           //style: kLabelStyle,
         ),
       ),
@@ -152,11 +164,9 @@ class _LoginScreenState extends State<LoginScreen> {
             'Remember me',
             style: TextStyle(
                 color: Colors.white,
-                fontSize: 16,
+                fontSize: 14,
             ),
-            //style: kLabelStyle,
           ),
-          //_buildForgotPasswordBtn(),
         ],
       ),
     );
@@ -224,17 +234,14 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildSignInWithText() {
     return Column(
       children: <Widget>[
+        SizedBox(height: 40.0),
         Text(
-          '- OR -',
+          'Social Login',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w400,
+            fontSize: 16
           ),
-        ),
-        SizedBox(height: 20.0),
-        Text(
-          'Sign in with',
-          //style: kLabelStyle,
         ),
       ],
     );
@@ -308,47 +315,25 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      SizedBox(height: 30,),
                       CustomImage(
                         width: 150.0,
                         height: 150.0,
                         margin: 0,
                         image_path: 'assets/logos/logo_changed.png',
                       ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      // Text(
-                      //   'Sign In',
-                      //   style: TextStyle(
-                      //     color: Colors.white,
-                      //     fontFamily: 'OpenSans',
-                      //     fontSize: 30.0,
-                      //     fontWeight: FontWeight.bold,
-                      //   ),
-                      // ),
-                      //SizedBox(height: 30.0),
+                      SizedBox(height: 20.0,),
                       _buildUsernameTF(),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      _buildPasswordTF(),
-                      SizedBox(
-                        height: 10.0,
-                      ),
+                      SizedBox(height: 10.0,),
+                      _buildPasswordTF('Password'),
+                      SizedBox(height: 10.0,),
                       _buildRememberMeCheckbox(),
-                      //_buildForgotPasswordBtn(),
-                      SizedBox(
-                        height: 10.0,
-                      ),
+                      _buildForgotPasswordBtn(),
                       _buildLoginBtn(),
                       _buildRegisterBtn(),
-                      //_buildSignInWithText(),
-                      //_buildSocialBtnRow(),
+                      _buildSignInWithText(),
+                      _buildSocialBtnRow(),
                       //_buildSignupBtn(),
-                      SizedBox(
-                        height: 20.0,
-                      ),
+                      SizedBox(height: 20.0,),
                     ],
                   ),
                 ),
@@ -363,19 +348,20 @@ class _LoginScreenState extends State<LoginScreen> {
   void loginCheck(){
     _username = userController.text;
     _password = passController.text;
-    Navigator.of(context)
-        .push(
-        MaterialPageRoute(builder: (context) => HomeScreen())
-    );
-    // if(_username.isEmpty){
-    //
-    // } else if(_password.isEmpty){
-    //
-    // } else {
-    //   Navigator.of(context)
-    //       .push(
-    //       MaterialPageRoute(builder: (context) => HomeScreen())
-    //   );
-    // }
+    if(_username.isEmpty){
+      toast_short('Please Fill Username');
+    } else if(_password.isEmpty){
+      toast_short('Please Fill Password');
+    } else {
+      if(_username == 'admin' && _password == '1234'){
+        toast_short('Welcome Admin');
+        Navigator.of(context)
+            .push(
+            MaterialPageRoute(builder: (context) => HomeScreen())
+        );
+      } else {
+        toast_short('Username or Password Incorrect');
+      }
+    }
   }
 }
