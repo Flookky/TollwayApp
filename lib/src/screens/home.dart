@@ -1,9 +1,11 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:tollway/src/models/data.dart';
 import 'package:tollway/src/screens/change_payment.dart';
 import 'package:tollway/src/screens/history.dart';
 import 'package:tollway/src/screens/information.dart';
+import 'package:tollway/src/screens/luckydraw.dart';
 import 'package:tollway/src/screens/promotions.dart';
 import 'package:tollway/src/screens/user.dart';
 import 'package:tollway/src/widgets/CustomImage.dart';
@@ -26,10 +28,10 @@ class _HomeScreenState extends State<HomeScreen> {
   final items = List.from(Data.paymentList);
   final double tabBarHeight = 80;
   final panelController = PanelController();
-
   final List<String> payMethodList = [
     "Coupon","Credit Card"
   ];
+  int _selectedIndex = 0;
 
   final List<Widget> paymentList = [
     Container(
@@ -47,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     ),
   ];
-  int _selectedIndex = 0;
+
   void initState(){
     super.initState();
   }
@@ -137,6 +139,28 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void couponClick() => print("Clicked");
 
+  Widget buildSlidingPanel({
+    @required PanelController panelController,
+    @required ScrollController scrollController,
+  }) =>
+      Scaffold(
+        body: _pages[_selectedIndex],
+        floatingActionButton: FloatingActionButton(
+          child: Icon(
+            Icons.settings_overscan_outlined,
+            size: 32,
+          ),
+          onPressed: () {
+            Navigator.of(context)
+                .push(
+                MaterialPageRoute(builder: (context) => LuckyDrawScreen())
+            );
+          },
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: bottomNav2(),
+      );
+
   Widget payMethod(){
     return Container(
       child: ListView.builder(
@@ -187,6 +211,125 @@ class _HomeScreenState extends State<HomeScreen> {
       ]
   );
 
+  Widget bottomNav2() => BottomAppBar(
+    shape: CircularNotchedRectangle(),
+    notchMargin: 10,
+    child: Container(
+      height: 60,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              MaterialButton(
+                minWidth: 40,
+                onPressed: () {
+                  setState(() {
+                    _selectedIndex = 0;
+                  });
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.home_outlined,
+                      color: _selectedIndex == 0 ? Colors.purple[800] : Colors.grey,
+                    ),
+                    Text(
+                      'หน้าหลัก',
+                      style: TextStyle(
+                        color: _selectedIndex == 0 ? Colors.purple[800] : Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              MaterialButton(
+                minWidth: 40,
+                onPressed: () {
+                  setState(() {
+                    _selectedIndex = 1;
+                  });
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.shopping_basket_outlined,
+                      color: _selectedIndex == 1 ? Colors.purple[800] : Colors.grey,
+                    ),
+                    Text(
+                      'โปรโมชั่น',
+                      style: TextStyle(
+                        color: _selectedIndex == 1 ? Colors.purple[800] : Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+
+          // Right Tab bar icons
+
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              MaterialButton(
+                minWidth: 40,
+                onPressed: () {
+                  setState(() {
+                    _selectedIndex = 2;
+                  });
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.article_outlined,
+                      color: _selectedIndex == 2 ? Colors.purple[800] : Colors.grey,
+                    ),
+                    Text(
+                      'การชำระ',
+                      style: TextStyle(
+                        color: _selectedIndex == 2 ? Colors.purple[800] : Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              MaterialButton(
+                minWidth: 40,
+                onPressed: () {
+                  setState(() {
+                    _selectedIndex = 3;
+                  });
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.account_box_outlined,
+                      color: _selectedIndex == 3 ? Colors.purple[800] : Colors.grey,
+                    ),
+                    Text(
+                      'บัญชีของฉัน',
+                      style: TextStyle(
+                        color: _selectedIndex == 3 ? Colors.purple[800] : Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          )
+
+        ],
+      ),
+    ),
+  );
+
   Widget dragIcon() => Container(
       margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -201,18 +344,6 @@ class _HomeScreenState extends State<HomeScreen> {
       //   },
       // ),
     );
-
-  Widget buildSlidingPanel({
-    @required PanelController panelController,
-    @required ScrollController scrollController,
-  }) =>
-      Scaffold(
-        // appBar: AppBar(
-        //   title: Text('Tollway'),
-        // ),
-        body: _pages[_selectedIndex],
-        bottomNavigationBar: bottomNav(),
-      );
 
   Widget buildTabBar({
     @required VoidCallback onClicked,
@@ -235,25 +366,47 @@ class _HomeScreenState extends State<HomeScreen> {
           children: <Widget>[
             Container(
               width: double.infinity,
-              child: Row(
-                children: <Widget>[
-                  SizedBox(width: 75, height: 150,),
-                  Column(
-                    children: <Widget>[
-                      CustomImage(width: 50, height: 50, margin: 10, image_path: 'assets/icons/qr-code-scan.png',),
-                      Text("Scan")
-                    ],
-                  ),
-                  Spacer(flex: 2),
-                  Column(
-                    children: <Widget>[
-                      CustomImage(width: 50, height: 50, margin: 10, image_path: 'assets/icons/barcode.png',),
-                      Text("Pay")
-                    ],
-                  ),
-                  SizedBox(width: 75, height: 150,),
-                ],
+              child: Center(
+                 child: Column(
+                   children: <Widget>[
+                     SizedBox(height: 50,),
+                     CustomImage(width: 50, height: 50, margin: 10, image_path: 'assets/icons/qr-code-scan.png',),
+                     Text("Scan")
+                   ],
+                 ),
               ),
+              // child: Row(
+              //   children: <Widget>[
+              //     SizedBox(width: 75, height: 150,),
+              //     Column(
+              //       children: <Widget>[
+              //         CustomImage(width: 50, height: 50, margin: 10, image_path: 'assets/icons/qr-code-scan.png',),
+              //         Text("Scan")
+              //       ],
+              //     ),
+              //     Spacer(flex: 2),
+              //     Column(
+              //       children: <Widget>[
+              //         FlatButton(
+              //           onPressed: (){
+              //             Navigator.of(context)
+              //                 .push(
+              //                 MaterialPageRoute(builder: (context) => LuckyDrawScreen())
+              //             );
+              //           },
+              //           child: CustomImage(
+              //             width: 50,
+              //             height: 50,
+              //             margin: 10,
+              //             image_path: 'assets/icons/barcode.png',
+              //           ),
+              //         ),
+              //         Text("Pay")
+              //       ],
+              //     ),
+              //     SizedBox(width: 75, height: 150,),
+              //   ],
+              // ),
             ),
             //Box of Payment Detail
             Stack(
@@ -389,7 +542,6 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SlidingUpPanel(
         backdropTapClosesPanel: true,
         backdropEnabled: true,
-
         borderRadius: radius,
         controller: panelController,
         maxHeight: MediaQuery.of(context).size.height - tabBarHeight,
@@ -397,15 +549,6 @@ class _HomeScreenState extends State<HomeScreen> {
           scrollController: scrollController,
           panelController: panelController,
         ),
-        // panel: Column(
-        //   crossAxisAlignment: CrossAxisAlignment.center,
-        //   mainAxisSize: MainAxisSize.max,
-        //   mainAxisAlignment: MainAxisAlignment.end,
-        //   children: <Widget>[
-        //     //_pages[_selectedIndex],
-        //     bottomNav()
-        //   ],
-        // ),
         //Sliding up Icon
         collapsed: Container(
           decoration: BoxDecoration(

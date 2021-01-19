@@ -309,9 +309,13 @@ class _UserInformState extends State<UserInform> {
       toast_short('Special Character is not allow');
     } else {
       toast_short('Register Completed');
-      //Navigator.of(context).pop(true);
+      Navigator.of(context).pop(true);
     }
 
+
+  }
+
+  void _checkSpecificString(){
 
   }
 }
