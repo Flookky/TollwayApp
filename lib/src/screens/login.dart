@@ -1,9 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 import 'package:tollway/src/screens/home.dart';
 import 'package:tollway/src/screens/promotions.dart';
 import 'package:tollway/src/screens/register.dart';
+import 'package:tollway/src/services/google.auth.dart';
 import 'package:tollway/src/utils/toast.call.dart';
 import 'package:tollway/src/widgets/CustomImage.dart';
 import 'package:tollway/src/widgets/appBg.dart';
@@ -13,6 +17,9 @@ class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
+
+final FirebaseAuth firebaseAuth =FirebaseAuth.instance;
+final GoogleSignIn googleSignIn =GoogleSignIn();
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _rememberMe = false;
@@ -271,6 +278,35 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  Widget _googleSignInBtn(Function onTap, AssetImage logo) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 60.0,
+        width: 60.0,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              offset: Offset(0, 2),
+              blurRadius: 6.0,
+            ),
+          ],
+          image: DecorationImage(
+            image: logo,
+          ),
+        ),
+        // child: FlatButton(
+        //   onPressed: () {
+        //
+        //   },
+        // ),
+      ),
+    );
+  }
+
   Widget _buildSocialBtnRow() {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 30.0),
@@ -283,8 +319,9 @@ class _LoginScreenState extends State<LoginScreen> {
               'assets/logos/facebook.jpg',
             ),
           ),
-          _buildSocialBtn(
-                () => print('Login with Google'),
+          _googleSignInBtn(() => { _signIn()
+            //print('Login with Google')
+          },
             AssetImage(
               'assets/logos/google.jpg',
             ),
@@ -363,5 +400,35 @@ class _LoginScreenState extends State<LoginScreen> {
         toast_short('Username or Password Incorrect');
       }
     }
+  }
+
+  _googleAuth(){
+    signInWithGoogle().then((result) {
+      if(result != null){
+        Navigator.of(context).push(
+            MaterialPageRoute(
+                builder: (context) {
+                  return HomeScreen();
+                }
+            )
+        );
+      }
+    });
+  }
+
+  _signIn() async {
+    final GoogleSignInAccount googleSignInAccount = await googleSignIn
+        .signIn();
+    final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount
+        .authentication;
+    final AuthCredential authCredential = GoogleAuthProvider.credential(
+      idToken: googleSignInAuthentication.idToken,
+
+      accessToken: googleSignInAuthentication.accessToken,
+
+
+    );
+    User user = (await firebaseAuth.signInWithCredential(authCredential))
+        .user;
   }
 }
