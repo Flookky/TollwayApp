@@ -146,9 +146,15 @@ class _HomeScreenState extends State<HomeScreen> {
       Scaffold(
         body: _pages[_selectedIndex],
         floatingActionButton: FloatingActionButton(
-          child: Icon(
-            Icons.settings_overscan_outlined,
-            size: 32,
+          // child: Icon(
+          //   Icons.settings_overscan_outlined,
+          //   size: 32,
+          // ),
+          child: Image.asset(
+            "assets/icons/barcode.png",
+            width: 30.0,
+            height: 30.0,
+            color: Colors.white,
           ),
           onPressed: () {
             Navigator.of(context)
@@ -324,7 +330,6 @@ class _HomeScreenState extends State<HomeScreen> {
               )
             ],
           )
-
         ],
       ),
     ),
@@ -537,7 +542,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     BorderRadiusGeometry radius = BorderRadius.only(topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0));
-
     return Scaffold(
       body: SlidingUpPanel(
         backdropTapClosesPanel: true,

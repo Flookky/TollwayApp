@@ -1,18 +1,27 @@
 {
   "project_info": {
     "project_number": "417635903465",
+    "firebase_url": "https://tollwayapp-default-rtdb.firebaseio.com",
     "project_id": "tollwayapp",
     "storage_bucket": "tollwayapp.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:417635903465:android:b7e9f64d7a0bbd277a8d78",
+        "mobilesdk_app_id": "1:417635903465:android:a3d46bbac1ee3b9b7a8d78",
         "android_client_info": {
           "package_name": "com.example.tollway"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "417635903465-b2no1vqsp5136eevf39cu05bil6vj7cf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tollway",
+            "certificate_hash": "50a77fe29bb9c385032544fc39abdc1aa686d4a2"
+          }
+        },
         {
           "client_id": "417635903465-vlr3d5b2kseuv2oe7d21b9a5jm5fhk5u.apps.googleusercontent.com",
           "client_type": 3

@@ -18,9 +18,6 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-final FirebaseAuth firebaseAuth =FirebaseAuth.instance;
-final GoogleSignIn googleSignIn =GoogleSignIn();
-
 class _LoginScreenState extends State<LoginScreen> {
   bool _rememberMe = false;
   final userController = TextEditingController();
@@ -29,6 +26,8 @@ class _LoginScreenState extends State<LoginScreen> {
   String _password = "";
   bool rememberMe = false;
   bool _isHidden = true;
+  bool isSignIn = false;
+  FirebaseAuth _auth = FirebaseAuth.instance;
 
   void _toggleVisibility(){
     setState(() {
@@ -319,7 +318,9 @@ class _LoginScreenState extends State<LoginScreen> {
               'assets/logos/facebook.jpg',
             ),
           ),
-          _googleSignInBtn(() => { _signIn()
+          _googleSignInBtn(() => {
+            loginWithGoogle(context)
+            //signInWithGoogle()
             //print('Login with Google')
           },
             AssetImage(
@@ -352,6 +353,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
+                      SizedBox(height: 20.0,),
                       CustomImage(
                         width: 150.0,
                         height: 150.0,
@@ -383,52 +385,58 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void loginCheck(){
-    _username = userController.text;
-    _password = passController.text;
-    if(_username.isEmpty){
-      toast_short('Please Fill Username');
-    } else if(_password.isEmpty){
-      toast_short('Please Fill Password');
-    } else {
-      if(_username == 'admin' && _password == '1234'){
-        toast_short('Welcome Admin');
-        Navigator.of(context)
-            .push(
-            MaterialPageRoute(builder: (context) => HomeScreen())
-        );
-      } else {
-        toast_short('Username or Password Incorrect');
-      }
-    }
-  }
-
-  _googleAuth(){
-    signInWithGoogle().then((result) {
-      if(result != null){
-        Navigator.of(context).push(
-            MaterialPageRoute(
-                builder: (context) {
-                  return HomeScreen();
-                }
-            )
-        );
-      }
-    });
-  }
-
-  _signIn() async {
-    final GoogleSignInAccount googleSignInAccount = await googleSignIn
-        .signIn();
-    final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount
-        .authentication;
-    final AuthCredential authCredential = GoogleAuthProvider.credential(
-      idToken: googleSignInAuthentication.idToken,
-
-      accessToken: googleSignInAuthentication.accessToken,
-
-
+    Navigator.of(context)
+        .push(
+        MaterialPageRoute(builder: (context) => HomeScreen())
     );
-    User user = (await firebaseAuth.signInWithCredential(authCredential))
-        .user;
+    // _username = userController.text;
+    // _password = passController.text;
+    // if(_username.isEmpty){
+    //   toast_short('Please Fill Username');
+    // } else if(_password.isEmpty){
+    //   toast_short('Please Fill Password');
+    // } else {
+    //   if(_username == 'admin' && _password == '1234'){
+    //     toast_short('Welcome Admin');
+    //     Navigator.of(context)
+    //         .push(
+    //         MaterialPageRoute(builder: (context) => HomeScreen())
+    //     );
+    //   } else {
+    //     toast_short('Username or Password Incorrect');
+    //   }
+    // }
   }
+
+  Future loginWithGoogle(BuildContext context) async {
+    GoogleSignIn _googleSignIn = GoogleSignIn(
+      scopes: [
+        'https://www.googleapis.com/auth/contacts.readonly',
+      ],
+    );
+    GoogleSignInAccount user = await _googleSignIn.signIn();
+    GoogleSignInAuthentication userAuth = await user.authentication;
+
+    await _auth.signInWithCredential(GoogleAuthProvider.credential(idToken: userAuth.idToken, accessToken: userAuth.accessToken));
+
+    //checkAuth(context); // after success route to home.
+  }
+
+  // Future<UserCredential> signInWithGoogle() async {
+  //   // Trigger the authentication flow
+  //   final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+  //
+  //   // Obtain the auth details from the request
+  //   final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+  //
+  //   // Create a new credential
+  //   final GoogleAuthCredential credential = GoogleAuthProvider.credential(
+  //     accessToken: googleAuth.accessToken,
+  //     idToken: googleAuth.idToken,
+  //   );
+  //
+  //   // Once signed in, return the UserCredential
+  //   return await FirebaseAuth.instance.signInWithCredential(credential);
+  // }
+
 }

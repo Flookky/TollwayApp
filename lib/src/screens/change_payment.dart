@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tollway/src/models/data.dart';
+import 'package:tollway/src/screens/payment.cards.dart';
 import 'package:tollway/src/widgets/payMethodWidget.dart';
 
 class PaymentMethodScreen extends StatefulWidget {
@@ -70,7 +71,12 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
               //   borderRadius: BorderRadius.circular(20.0)
               // ),
               child: RaisedButton(
-                onPressed: (){},
+                onPressed: (){
+                  Navigator.of(context)
+                      .push(
+                      MaterialPageRoute(builder: (context) => AddPaymentCards())
+                  );
+                },
                 color: Colors.purple[400],
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12.0),

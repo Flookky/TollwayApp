@@ -73,8 +73,12 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  _buildAcceptBtn(),
-                  _buildDeclineBtn()
+                  Expanded(
+                    child: _buildAcceptBtn(),
+                  ),
+                  Expanded(
+                    child: _buildDeclineBtn()
+                  )
                 ],
               )
             ],
@@ -117,7 +121,7 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
   Widget _buildAcceptBtn() {
     return Container(
       padding: EdgeInsets.only(left: 10.0, right: 10.0),
-      margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
+      margin: EdgeInsets.only(left: 20.0, top: 20.0),
       child: RaisedButton(
         elevation: 5.0,
         onPressed: (){
@@ -146,7 +150,7 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
   Widget _buildDeclineBtn() {
     return Container(
       padding: EdgeInsets.only(left: 10.0, right: 10.0),
-      margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
+      margin: EdgeInsets.only(right: 20.0, top: 20.0),
       child: RaisedButton(
         elevation: 5.0,
         onPressed: (){
