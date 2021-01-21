@@ -1,4 +1,5 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:tollway/src/models/data.dart';
@@ -146,6 +147,8 @@ class _HomeScreenState extends State<HomeScreen> {
       Scaffold(
         body: _pages[_selectedIndex],
         floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.white,
+
           // child: Icon(
           //   Icons.settings_overscan_outlined,
           //   size: 32,
@@ -154,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
             "assets/icons/barcode.png",
             width: 30.0,
             height: 30.0,
-            color: Colors.white,
+            color: Colors.purple[800],
           ),
           onPressed: () {
             Navigator.of(context)
@@ -306,7 +309,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               MaterialButton(
-                minWidth: 40,
+                //minWidth: 40,
                 onPressed: () {
                   setState(() {
                     _selectedIndex = 3;
@@ -320,7 +323,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: _selectedIndex == 3 ? Colors.purple[800] : Colors.grey,
                     ),
                     Text(
-                      'บัญชีของฉัน',
+                      'บัญชี',
                       style: TextStyle(
                         color: _selectedIndex == 3 ? Colors.purple[800] : Colors.grey,
                       ),

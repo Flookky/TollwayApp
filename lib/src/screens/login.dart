@@ -19,6 +19,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  User _firebaseUser;
   bool _rememberMe = false;
   final userController = TextEditingController();
   final passController = TextEditingController();
@@ -27,7 +28,6 @@ class _LoginScreenState extends State<LoginScreen> {
   bool rememberMe = false;
   bool _isHidden = true;
   bool isSignIn = false;
-  FirebaseAuth _auth = FirebaseAuth.instance;
 
   void _toggleVisibility(){
     setState(() {
@@ -184,7 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () => loginCheck(),
+        onPressed: () => _loginCheck(),
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
@@ -319,9 +319,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           _googleSignInBtn(() => {
-            loginWithGoogle(context)
-            //signInWithGoogle()
-            //print('Login with Google')
+            googleSignIn()
           },
             AssetImage(
               'assets/logos/google.jpg',
@@ -384,11 +382,12 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void loginCheck(){
+  void _loginCheck(){
     Navigator.of(context)
         .push(
         MaterialPageRoute(builder: (context) => HomeScreen())
     );
+
     // _username = userController.text;
     // _password = passController.text;
     // if(_username.isEmpty){
@@ -408,35 +407,13 @@ class _LoginScreenState extends State<LoginScreen> {
     // }
   }
 
-  Future loginWithGoogle(BuildContext context) async {
-    GoogleSignIn _googleSignIn = GoogleSignIn(
-      scopes: [
-        'https://www.googleapis.com/auth/contacts.readonly',
-      ],
-    );
-    GoogleSignInAccount user = await _googleSignIn.signIn();
-    GoogleSignInAuthentication userAuth = await user.authentication;
-
-    await _auth.signInWithCredential(GoogleAuthProvider.credential(idToken: userAuth.idToken, accessToken: userAuth.accessToken));
-
-    //checkAuth(context); // after success route to home.
+  void googleSignIn() {
+    Route route = MaterialPageRoute(builder: (context) => HomeScreen());
+    GoogleAuth().signInWithGoogle().then((user) => {
+      this._firebaseUser = user,
+      Navigator.pushReplacement(context, route)
+    });
   }
 
-  // Future<UserCredential> signInWithGoogle() async {
-  //   // Trigger the authentication flow
-  //   final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
-  //
-  //   // Obtain the auth details from the request
-  //   final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-  //
-  //   // Create a new credential
-  //   final GoogleAuthCredential credential = GoogleAuthProvider.credential(
-  //     accessToken: googleAuth.accessToken,
-  //     idToken: googleAuth.idToken,
-  //   );
-  //
-  //   // Once signed in, return the UserCredential
-  //   return await FirebaseAuth.instance.signInWithCredential(credential);
-  // }
 
 }

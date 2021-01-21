@@ -22,19 +22,23 @@ environment:
 
 dependencies:
   #Firebase Authentication
+  google_sign_in: 4.5.6
+  flutter_facebook_login: ^3.0.0
   firebase_core: ^0.7.0
   firebase_auth: ^0.20.0+1
-#  cloud_firestore: 0.14.0
-  google_sign_in: 4.5.6
 
   #state management
   provider: ^4.3.2+2
 
+  # UI
   flutter_launcher_icons: ^0.8.0
+  fluttertoast: ^7.1.6
   sliding_up_panel: ^1.0.2
   draggable_bottom_sheet: ^0.1.1
   curved_navigation_bar: ^0.3.7
-  fluttertoast: ^7.1.6
+  image_picker: ^0.6.7+21
+
+
   flutter:
     sdk: flutter
 
