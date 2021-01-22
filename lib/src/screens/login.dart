@@ -1,12 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:tollway/src/screens/home.dart';
 import 'package:tollway/src/screens/promotions.dart';
 import 'package:tollway/src/screens/register.dart';
+import 'package:tollway/src/services/facebook.auth.dart';
 import 'package:tollway/src/services/google.auth.dart';
 import 'package:tollway/src/utils/toast.call.dart';
 import 'package:tollway/src/widgets/CustomImage.dart';
@@ -28,6 +30,10 @@ class _LoginScreenState extends State<LoginScreen> {
   bool rememberMe = false;
   bool _isHidden = true;
   bool isSignIn = false;
+  bool _isFacebookLogin = false;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FacebookLogin _facebookLogin = FacebookLogin();
+  User _userFacebook;
 
   void _toggleVisibility(){
     setState(() {
@@ -312,8 +318,9 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          _buildSocialBtn(
-                () => print('Login with Facebook'),
+          _buildSocialBtn(() =>{
+            facebookLogin()
+          },
             AssetImage(
               'assets/logos/facebook.jpg',
             ),
@@ -415,5 +422,103 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
+  void facebookLogin() {
+    Route route = MaterialPageRoute(builder: (context) => HomeScreen());
+    handleLogin().then((user) => {
+      this._firebaseUser = user,
+      Navigator.pushReplacement(context, route)
+    });
+  }
+
+  Future handleLogin() async {
+    final FacebookLoginResult result = await _facebookLogin.logIn(['email']);
+    switch (result.status) {
+      case FacebookLoginStatus.cancelledByUser:
+        break;
+      case FacebookLoginStatus.error:
+        break;
+      case FacebookLoginStatus.loggedIn:
+        try {
+          await loginWithFacebook(result);
+        } catch (e) {
+          print(e);
+        }
+        break;
+    }
+  }
+
+  Future<User> loginWithFacebook(FacebookLoginResult result) async {
+    final FacebookAccessToken accessToken = result.accessToken;
+
+
+    final AuthCredential credential = FacebookAuthProvider.credential(
+        accessToken.token
+    );
+
+    final UserCredential authResult = await _auth.signInWithCredential(credential);
+    final User user = authResult.user;
+
+    assert(!user.isAnonymous);
+    assert(await user.getIdToken() != null);
+
+    final User currentUser = _auth.currentUser;
+    assert(currentUser.uid == user.uid);
+    print('Facebook user is $user}');
+
+    return user;
+  }
+
+  Future signInUsingFacebook(BuildContext context) async {
+    final FacebookLogin facebookLogin = FacebookLogin();
+    final FacebookLoginResult result = await facebookLogin.logIn(['email']);
+
+    // String token = result.accessToken.token;
+    // print("Access token = $token");
+    // await _auth.signInWithCredential(
+    //   FacebookAuthProvider.credential(accessToken: token));
+    //
+    // FacebookAccessToken facebookAccessToken = result.accessToken;
+    // AuthCredential authCredential = FacebookAuthProvider.credential(
+    //     accessToken: facebookAccessToken.token,
+    //     idToken
+    // );
+
+    // switch (facebookLoginResult.status) {
+    //   case FacebookLoginStatus.loggedIn:
+    //     FirebaseAuth.instance
+    //         .signInWithCredential(
+    //       FacebookAuthProvider.getCredential(
+    //           accessToken: facebookLoginResult.accessToken.token),
+    //     ).then((user) async {
+    //
+    //       // Navigator.pushReplacement(
+    //       //   context,
+    //       //   MaterialPageRoute(
+    //       //     builder: (context) => UserProfile(),
+    //       //   ),
+    //       // );
+    //
+    //     });
+    //
+    //     break;
+    //
+    //   case FacebookLoginStatus.cancelledByUser:
+    //     break;
+    //
+    //   case FacebookLoginStatus.error:
+    //     break;
+    // }
+  }
+
+  // Future loginWithFacebook(FacebookLoginResult result) async {
+  //   final FacebookAccessToken accessToken = result.accessToken;
+  //   AuthCredential credential =
+  //   FacebookAuthProvider.credential(accessToken.token);
+  //   var a = await _auth.signInWithCredential(credential);
+  //   setState(() {
+  //     isSignIn = true;
+  //     _userFacebook = a.user;
+  //   });
+  // }
 
 }
