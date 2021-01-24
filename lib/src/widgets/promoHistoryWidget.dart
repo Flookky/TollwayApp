@@ -30,7 +30,8 @@ class PromoHistoryItemWidget extends StatelessWidget {
             child: Text(
               'Date: ${item.payDate}',
               style: TextStyle(
-                fontSize: 16
+                fontSize: 16,
+                color: Colors.white
               ),
             ),
 

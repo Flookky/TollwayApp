@@ -17,6 +17,12 @@ class UserScreen extends StatefulWidget {
 class _UserScreenState extends State<UserScreen> {
   File imageFile;
 
+  void _setImage(){
+    setState(() {
+      _showDialog();
+    });
+  }
+
   Widget _buildName() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -266,28 +272,69 @@ class _UserScreenState extends State<UserScreen> {
   }
 
   Widget _buildCameraBtnRow() {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 0.0),
-      child: imageFile == null ? FlatButton(
-          onPressed: (){
-            _showDialog();
-          },
-          child: Icon(
-            Icons.camera_alt,
-            color: Colors.white,
-            size: 70.0,
-          ),
-      ): FlatButton(
-          onPressed: (){
-            _showDialog();
-          },
-          child: Image.file(
-            imageFile,
-            width: 180.0,
-            height: 180.0,
-          ),
+    return GestureDetector(
+      onTap: (){
+        this._setImage();
+      },
+      child: imageFile == null ? Container(
+        width: 100.0,
+        height: 100.0,
+        child: Icon(
+          Icons.camera_alt,
+          color: Colors.white,
+          size: 100.0,
+        ),
+      ): Container(
+        width: 100.0,
+        height: 100.0,
+        child: Image.file(
+          imageFile,
+          width: 100.0,
+          height: 100.0,
+        ),
       )
     );
+    // return Padding(
+    //     padding: EdgeInsets.symmetric(vertical: 0.0),
+    //     child: imageFile == null ? FlatButton(
+    //       onPressed: (){
+    //         this._setImage();
+    //         print('Image file = null');
+    //       },
+    //       child: Icon(
+    //         Icons.camera_alt,
+    //         color: Colors.white,
+    //         size: 80.0,
+    //       ),
+    //     ): FlatButton(
+    //       onPressed: (){
+    //         this._setImage();
+    //         print('Image file not null');
+    //       },
+    //       child: Image.file(
+    //         imageFile,
+    //         width: 180.0,
+    //         height: 180.0,
+    //       ),
+    //     )
+    // );
+
+
+    // return GestureDetector(
+    //   onTap: (){
+    //     print('Hello world');
+    //   },
+    //   child: Container(
+    //     width: 70.0,
+    //     height: 70.0,
+    //     child: Icon(
+    //       Icons.camera_alt,
+    //       color: Colors.white,
+    //       size: 70.0,
+    //     ),
+    //   ),
+    // );
+        //FlatButton(onPressed: (){print('Hello world');}, child: Text('Hello world'));
   }
 
   Widget _buildSaveNew() {
@@ -432,7 +479,7 @@ class _UserScreenState extends State<UserScreen> {
                   GestureDetector(
                     child: Text('Gallary'),
                     onTap: () {
-                      openGallary();
+                      openGallery();
                       Navigator.pop(context);
                     },
                   ),
@@ -443,7 +490,7 @@ class _UserScreenState extends State<UserScreen> {
         });
   }
 
-  Future<void> openGallary() async {
+  Future<void> openGallery() async {
     // ignore: deprecated_member_use
     var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
     this.setState(() {
@@ -480,6 +527,7 @@ class _UserScreenState extends State<UserScreen> {
     );
   }
 }
+
 
 
 
@@ -710,11 +758,16 @@ class UserScreen2 extends StatelessWidget {
           child: Column(
             children: <Widget>[
               SizedBox(height: 20,),
-              CustomImage(
-                width: 100.0,
-                height: 100.0,
-                margin: 20,
-                image_path: 'assets/icons/user.png',
+              GestureDetector(
+                onTap: (){
+                  print('Hello world');
+                },
+                child: CustomImage(
+                  width: 100.0,
+                  height: 100.0,
+                  margin: 20,
+                  image_path: 'assets/icons/user.png',
+                ),
               ),
               Text(
                 'Member No.24569',

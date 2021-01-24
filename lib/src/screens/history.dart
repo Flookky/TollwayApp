@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tollway/src/models/data.dart';
+import 'package:tollway/src/widgets/appBg.dart';
 import 'package:tollway/src/widgets/promoHistoryWidget.dart';
 
 class HistoryScreen extends StatefulWidget {
@@ -26,43 +28,100 @@ class _HistoryScreenState extends State<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Column(
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(left: 20.0, top: 15.0, bottom: 5.0, right: 20.0),
-                  child: Text(
-                    'Remain Cash',
-                    style: TextStyle(
-                      fontSize: 18
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.light,
+        child: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Stack(
+            children: <Widget>[
+              AppBackground(),
+              Container(
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.all(15.0),
+                            child: Text(
+                              'Remain Cash',
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black
+                              ),
+                            ),
+                          ),
+                          Spacer(flex: 2,),
+                          Container(
+                            margin: EdgeInsets.all(15.0),
+                            child: Text(
+                              '350฿',
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ),
-                Spacer(flex: 2,),
-                Container(
-                  margin: EdgeInsets.only(left: 20.0, top: 15.0, bottom: 5.0, right: 20.0),
-                  child: Text(
-                    '350฿',
-                    style: TextStyle(
-                        fontSize: 18
+
+                    Expanded(
+                      child: AnimatedList(
+                        key: key,
+                        initialItemCount: items.length,
+                        itemBuilder: (context, index, animation) =>
+                            buildItem(items[index], index, animation),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-            Expanded(
-              child: AnimatedList(
-                key: key,
-                initialItemCount: items.length,
-                itemBuilder: (context, index, animation) =>
-                    buildItem(items[index], index, animation),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
+      // body: Container(
+      //   child: Column(
+      //     children: <Widget>[
+      //       Row(
+      //         children: <Widget>[
+      //           Container(
+      //             margin: EdgeInsets.only(left: 20.0, top: 15.0, bottom: 5.0, right: 20.0),
+      //             child: Text(
+      //               'Remain Cash',
+      //               style: TextStyle(
+      //                 fontSize: 18
+      //               ),
+      //             ),
+      //           ),
+      //           Spacer(flex: 2,),
+      //           Container(
+      //             margin: EdgeInsets.only(left: 20.0, top: 15.0, bottom: 5.0, right: 20.0),
+      //             child: Text(
+      //               '350฿',
+      //               style: TextStyle(
+      //                   fontSize: 18
+      //               ),
+      //             ),
+      //           ),
+      //         ],
+      //       ),
+      //       Expanded(
+      //         child: AnimatedList(
+      //           key: key,
+      //           initialItemCount: items.length,
+      //           itemBuilder: (context, index, animation) =>
+      //               buildItem(items[index], index, animation),
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      // ),
     );
   }
 }
