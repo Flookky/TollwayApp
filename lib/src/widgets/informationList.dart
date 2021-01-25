@@ -19,7 +19,7 @@ class InformationItemWidget extends StatelessWidget {
     return ScaleTransition(
       scale: animation,
       child: Container(
-        height: 130,
+        height: 150.0,
         margin: EdgeInsets.only(top: 5, bottom: 5, left: 20, right: 20),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),

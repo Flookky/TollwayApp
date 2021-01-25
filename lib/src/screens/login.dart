@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:tollway/src/screens/home.dart';
@@ -10,7 +9,7 @@ import 'package:tollway/src/screens/promotions.dart';
 import 'package:tollway/src/screens/register.dart';
 import 'package:tollway/src/services/facebook.auth.dart';
 import 'package:tollway/src/services/google.auth.dart';
-import 'package:tollway/src/utils/toast.call.dart';
+import 'package:tollway/src/utils/utils.dart';
 import 'package:tollway/src/widgets/CustomImage.dart';
 import 'package:tollway/src/widgets/appBg.dart';
 import 'package:tollway/src/widgets/constants.dart';
@@ -48,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Container(
           margin: EdgeInsets.only(left: 12),
           child: Text(
-            'Username',
+            'ชื่อผู้ใช้งาน',
             style: TextStyle(
               color: Colors.white,
               fontSize: 16
@@ -67,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
               fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
-              hintText: 'Username',
+              hintText: 'โปรดใส่ชื่อผู้ใช้งาน',
               hintStyle: TextStyle(fontSize: 16),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
@@ -93,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Container(
           margin: EdgeInsets.only(left: 12),
           child: Text(
-            'Password',
+            'รหัสผ่าน',
             style: TextStyle(
                 color: Colors.white,
                 fontSize: 16
@@ -111,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
               fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
-              hintText: 'Enter your Password',
+              hintText: 'โปรดใส่รหัสผ่าน',
               hintStyle: TextStyle(fontSize: 16),
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -144,7 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
         onPressed: () => print('Forgot Password Button Pressed'),
         padding: EdgeInsets.only(right: 0.0),
         child: Text(
-          'Forgot Password?',
+          'ลืมรหัสผ่าน?',
           style: TextStyle(
             color: Colors.white
           ),
@@ -173,7 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           Text(
-            'Remember me',
+            'จดจำรหัสผ่าน',
             style: TextStyle(
                 color: Colors.white,
                 fontSize: 14,
@@ -198,7 +197,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         color: Colors.purple[900],
         child: Text(
-          'LOGIN',
+          'เข้าสู่ระบบ',
           style: TextStyle(
             color: Colors.white,
             letterSpacing: 1.5,
@@ -230,7 +229,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         color: Colors.white,
         child: Text(
-          'REGISTER',
+          'ลงทะเบียนผู้ใช้งาน',
           style: TextStyle(
             color: Colors.purple[900],
             letterSpacing: 1.5,
@@ -248,7 +247,7 @@ class _LoginScreenState extends State<LoginScreen> {
       children: <Widget>[
         SizedBox(height: 40.0),
         Text(
-          'Social Login',
+          'เข้าสู่ระบบผ่านโซเชียลมีเดีย',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w400,
@@ -318,13 +317,13 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          _buildSocialBtn(() =>{
-            facebookLogin()
-          },
-            AssetImage(
-              'assets/logos/facebook.jpg',
-            ),
-          ),
+          // _buildSocialBtn(() =>{
+          //   facebookLogin()
+          // },
+          //   AssetImage(
+          //     'assets/logos/facebook.jpg',
+          //   ),
+          // ),
           _googleSignInBtn(() => {
             googleSignIn()
           },
@@ -424,101 +423,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void facebookLogin() {
     Route route = MaterialPageRoute(builder: (context) => HomeScreen());
-    handleLogin().then((user) => {
-      this._firebaseUser = user,
-      Navigator.pushReplacement(context, route)
+    FacebookAuth().loginWithFacebook().then((result) {
+      if(result != null){
+        _userFacebook = result;
+        print('Login Success');
+        Navigator.pushReplacement(context, route);
+      }
     });
   }
-
-  Future handleLogin() async {
-    final FacebookLoginResult result = await _facebookLogin.logIn(['email']);
-    switch (result.status) {
-      case FacebookLoginStatus.cancelledByUser:
-        break;
-      case FacebookLoginStatus.error:
-        break;
-      case FacebookLoginStatus.loggedIn:
-        try {
-          await loginWithFacebook(result);
-        } catch (e) {
-          print(e);
-        }
-        break;
-    }
-  }
-
-  Future<User> loginWithFacebook(FacebookLoginResult result) async {
-    final FacebookAccessToken accessToken = result.accessToken;
-
-
-    final AuthCredential credential = FacebookAuthProvider.credential(
-        accessToken.token
-    );
-
-    final UserCredential authResult = await _auth.signInWithCredential(credential);
-    final User user = authResult.user;
-
-    assert(!user.isAnonymous);
-    assert(await user.getIdToken() != null);
-
-    final User currentUser = _auth.currentUser;
-    assert(currentUser.uid == user.uid);
-    print('Facebook user is $user}');
-
-    return user;
-  }
-
-  Future signInUsingFacebook(BuildContext context) async {
-    final FacebookLogin facebookLogin = FacebookLogin();
-    final FacebookLoginResult result = await facebookLogin.logIn(['email']);
-
-    // String token = result.accessToken.token;
-    // print("Access token = $token");
-    // await _auth.signInWithCredential(
-    //   FacebookAuthProvider.credential(accessToken: token));
-    //
-    // FacebookAccessToken facebookAccessToken = result.accessToken;
-    // AuthCredential authCredential = FacebookAuthProvider.credential(
-    //     accessToken: facebookAccessToken.token,
-    //     idToken
-    // );
-
-    // switch (facebookLoginResult.status) {
-    //   case FacebookLoginStatus.loggedIn:
-    //     FirebaseAuth.instance
-    //         .signInWithCredential(
-    //       FacebookAuthProvider.getCredential(
-    //           accessToken: facebookLoginResult.accessToken.token),
-    //     ).then((user) async {
-    //
-    //       // Navigator.pushReplacement(
-    //       //   context,
-    //       //   MaterialPageRoute(
-    //       //     builder: (context) => UserProfile(),
-    //       //   ),
-    //       // );
-    //
-    //     });
-    //
-    //     break;
-    //
-    //   case FacebookLoginStatus.cancelledByUser:
-    //     break;
-    //
-    //   case FacebookLoginStatus.error:
-    //     break;
-    // }
-  }
-
-  // Future loginWithFacebook(FacebookLoginResult result) async {
-  //   final FacebookAccessToken accessToken = result.accessToken;
-  //   AuthCredential credential =
-  //   FacebookAuthProvider.credential(accessToken.token);
-  //   var a = await _auth.signInWithCredential(credential);
-  //   setState(() {
-  //     isSignIn = true;
-  //     _userFacebook = a.user;
-  //   });
-  // }
 
 }

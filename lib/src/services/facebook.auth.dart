@@ -6,15 +6,28 @@ class FacebookAuth{
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FacebookLogin facebookLogin = FacebookLogin();
 
-  Future<User> signInWithFacebook() async{
-    await Firebase.initializeApp();
+  Future<User> loginWithFacebook() async {
+    var facebookLogin = new FacebookLogin();
+    var result = await facebookLogin.logIn(['email']);
 
-    final FacebookLoginResult result = await facebookLogin.logIn(['email']);
-    final FacebookAccessToken accessToken = result.accessToken;
+    print(result.status.toString());
+    print(result.errorMessage.toString());
 
+    if (result.status == FacebookLoginStatus.loggedIn) {
+      FacebookAccessToken facebookAccessToken = result.accessToken;
+      AuthCredential authCredential = FacebookAuthProvider.credential(facebookAccessToken.token);
 
-
+      User user = (await _auth.signInWithCredential(authCredential)).user;
+      print('user = $user');
+      return user;
+    }
+    return null;
   }
 
+  Future<Null> signOutFacebook() async {
+    await _auth.signOut();
+    await facebookLogin.logOut();
+    print("User Facebook Signed Out");
+  }
 
 }

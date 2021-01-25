@@ -85,7 +85,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                 child: Container(
                   padding: EdgeInsets.all(15),
                   child: Text(
-                    '+ Add Credit/Debit cards',
+                    '+ เพิ่มบัตรเครดิต/เดบิต',
                     style: TextStyle(
                         fontSize: 18,
                         color: Colors.white

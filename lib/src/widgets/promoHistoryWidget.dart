@@ -28,7 +28,7 @@ class PromoHistoryItemWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(5.0),
             ),
             child: Text(
-              'Date: ${item.payDate}',
+              'วันที่: ${item.payDate}',
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.white

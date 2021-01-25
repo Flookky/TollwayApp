@@ -47,8 +47,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<User> getCurrentUser() async{
     User _user = await FirebaseAuth.instance.currentUser;
-    //print('User: ${_user.email ?? "User = None"}');
-    //print('Name: ${_user.displayName ?? "Name = None"}');
     print('User is = $_user');
     if(_user == null){
       Timer(Duration(milliseconds: 2000), () {
@@ -63,6 +61,9 @@ class _SplashScreenState extends State<SplashScreen> {
         ));
       });
     }
+
+    //print('User: ${_user.email ?? "User = None"}');
+    //print('Name: ${_user.displayName ?? "Name = None"}');
 
     return _user;
   }

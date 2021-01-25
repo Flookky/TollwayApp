@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tollway/src/screens/login.dart';
+import 'package:tollway/src/services/facebook.auth.dart';
 import 'package:tollway/src/services/google.auth.dart';
 import 'package:tollway/src/utils/constants.dart';
 import 'package:tollway/src/widgets/CustomImage.dart';
@@ -49,7 +51,7 @@ class _UserScreenState extends State<UserScreen> {
                 Icons.account_box,
                 color: Colors.white,
               ),
-              hintText: 'Name',
+              hintText: 'ชื่อจริง',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -61,7 +63,7 @@ class _UserScreenState extends State<UserScreen> {
   Widget _buildText() {
     return Container(
       child: Text(
-        'Member No. 00001',
+        'สมาชิกหมายเลข 00001',
         style: TextStyle(
           color: Colors.white,
           letterSpacing: 1.0,
@@ -99,7 +101,7 @@ class _UserScreenState extends State<UserScreen> {
                 Icons.account_box_outlined,
                 color: Colors.white,
               ),
-              hintText: 'Surname',
+              hintText: 'นามสกุล',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -134,7 +136,7 @@ class _UserScreenState extends State<UserScreen> {
                 Icons.cake_outlined,
                 color: Colors.white,
               ),
-              hintText: 'Birthday',
+              hintText: 'วันเกิด',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -169,7 +171,7 @@ class _UserScreenState extends State<UserScreen> {
                 Icons.featured_video_outlined,
                 color: Colors.white,
               ),
-              hintText: 'Id Card',
+              hintText: 'รหัสบัตรประชาชน',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -204,7 +206,7 @@ class _UserScreenState extends State<UserScreen> {
                 Icons.email_outlined,
                 color: Colors.white,
               ),
-              hintText: 'Email',
+              hintText: 'อีเมลล์',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -239,7 +241,7 @@ class _UserScreenState extends State<UserScreen> {
                 Icons.local_phone_outlined,
                 color: Colors.white,
               ),
-              hintText: 'Phone Number',
+              hintText: 'เบอร์โทรศัพท์',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -387,7 +389,7 @@ class _UserScreenState extends State<UserScreen> {
         ),
         color: Colors.white,
         child: Text(
-          'LOGOUT',
+          'ออกจากระบบ',
           style: TextStyle(
             color: Colors.purple[800],
             letterSpacing: 1.5,
@@ -458,7 +460,7 @@ class _UserScreenState extends State<UserScreen> {
         // ignore: non_constant_identifier_names
         builder: (BuildContext) {
           return AlertDialog(
-            title: Text('You want take a photo from?'),
+            title: Text('กรุณาเลือกช่องทางเลือกรูปภาพ'),
             content: SingleChildScrollView(
               child: ListBody(
                 children: <Widget>[
@@ -466,7 +468,7 @@ class _UserScreenState extends State<UserScreen> {
                     height: 5.0,
                   ),
                   GestureDetector(
-                    child: Text('Camera'),
+                    child: Text('กล้อง'),
                     onTap: () {
                       openCamera();
                       Navigator.pop(context);
@@ -477,7 +479,7 @@ class _UserScreenState extends State<UserScreen> {
                   ),
                   Padding(padding: EdgeInsets.only(top: 0.0)),
                   GestureDetector(
-                    child: Text('Gallary'),
+                    child: Text('เเกลอรี่'),
                     onTap: () {
                       openGallery();
                       Navigator.pop(context);
@@ -520,11 +522,18 @@ class _UserScreenState extends State<UserScreen> {
     // } else {
     //   print('Google Logout = null');
     // }
-    GoogleAuth().signOutGoogle();
-    Navigator.of(context)
-        .push(
-        MaterialPageRoute(builder: (context) => LoginScreen())
-    );
+    if(FirebaseAuth.instance.currentUser != null){
+      FacebookAuth().signOutFacebook();
+      GoogleAuth().signOutGoogle();
+      Navigator.of(context)
+          .push(
+          MaterialPageRoute(builder: (context) => LoginScreen())
+      );
+    } else {
+      print('Auth account = null');
+    }
+
+
   }
 }
 

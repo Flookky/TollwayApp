@@ -31,7 +31,7 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
                         CustomImage(width: 150.0, height: 150.0, margin: 0.0, image_path: 'assets/logos/logo_changed.png',),
                         SizedBox(height: 20,),
                         Text(
-                          "Promotions",
+                          "โปรโมชั่น",
                           style: TextStyle(
                               fontSize: 24.0,
                               color: Colors.white,

@@ -265,7 +265,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Icon(
-                      Icons.shopping_basket_outlined,
+                      Icons.local_offer_outlined,
                       color: _selectedIndex == 1 ? Colors.purple[800] : Colors.grey,
                     ),
                     Text(
@@ -379,7 +379,7 @@ class _HomeScreenState extends State<HomeScreen> {
                    children: <Widget>[
                      SizedBox(height: 50,),
                      CustomImage(width: 50, height: 50, margin: 10, image_path: 'assets/icons/qr-code-scan.png',),
-                     Text("Scan")
+                     Text("สเเกน")
                    ],
                  ),
               ),
@@ -482,13 +482,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: Column(
                                       children: <Widget>[
                                         Text(
-                                          'Payment Type',
-                                          style: TextStyle(color: Colors.black, fontSize: 18
+                                          'ประเภทการชำระเงิน',
+                                          style: TextStyle(color: Colors.black, fontSize: 16
                                             , fontWeight: FontWeight.bold,),
                                         ),
                                         Text(
-                                          'Remain Income',
-                                          style: TextStyle(color: Colors.grey, fontSize: 16
+                                          'ยอดเงินคงเหลือ',
+                                          style: TextStyle(color: Colors.grey, fontSize: 14
                                             , fontWeight: FontWeight.bold,),
                                         ),
                                       ],
@@ -499,7 +499,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   padding: EdgeInsets.all(5),
                                   child: FlatButton(
                                       child: Text(
-                                        'Change',
+                                        'เปลี่ยน',
                                         style: TextStyle(color: Colors.blueAccent, fontSize: 16,),
                                       ),
                                       onPressed: (){
@@ -573,7 +573,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: EdgeInsets.only(bottom: 20.0),
                   onPressed:() => openPanel(),
                   child: Text(
-                    'Click to Homepage',
+                    'กดเพื่อเข้าสู่หน้าหลัก',
                     style: TextStyle(
                         fontSize: 18,
                         color: Colors.white

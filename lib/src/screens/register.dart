@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tollway/src/utils/control.dart';
-import 'package:tollway/src/utils/toast.call.dart';
+import 'package:tollway/src/utils/utils.dart';
 import 'package:tollway/src/widgets/CustomImage.dart';
 import 'package:tollway/src/widgets/appBg.dart';
 import 'package:tollway/src/widgets/constants.dart';
@@ -51,7 +51,7 @@ class _UserInformState extends State<UserInform> {
               //fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
-              hintText: 'Username',
+              hintText: 'ชื่อผู้ใช้งาน',
               hintStyle: TextStyle(fontSize: 16),
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -88,7 +88,7 @@ class _UserInformState extends State<UserInform> {
               //fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
-              hintText: 'Password',
+              hintText: 'รหัสผ่าน',
               hintStyle: TextStyle(fontSize: 16),
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -129,7 +129,7 @@ class _UserInformState extends State<UserInform> {
               //fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
-              hintText: 'Re Password',
+              hintText: 'ยืนยันรหัสผ่าน',
               hintStyle: TextStyle(fontSize: 16),
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -170,7 +170,7 @@ class _UserInformState extends State<UserInform> {
               //fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
-              hintText: 'Email',
+              hintText: 'อีเมลล์',
               hintStyle: TextStyle(fontSize: 16),
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -207,7 +207,7 @@ class _UserInformState extends State<UserInform> {
         ),
         color: Colors.purple[900],
         child: Text(
-          'Submit',
+          'ยืนยันการสร้างบัญชี',
           style: TextStyle(
             color: Colors.white,
             letterSpacing: 1.5,
@@ -258,7 +258,7 @@ class _UserInformState extends State<UserInform> {
                         ),
                         SizedBox(height: 20,),
                         Text(
-                          'Register',
+                          'ลงทะเบียนผู้ใช้งาน',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 28,

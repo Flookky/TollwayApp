@@ -33,8 +33,8 @@ class GoogleAuth{
   Future<Null> signOutGoogle() async {
     await _auth.signOut();
     await googleSignIn.signOut();
-
-    print("User Signed Out");
+    print("User Google Signed Out");
   }
+
 }
 

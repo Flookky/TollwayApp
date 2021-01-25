@@ -69,8 +69,6 @@ class _AddPaymentCardsState extends State<AddPaymentCards> {
                   ),
                   decoration: InputDecoration(
                     labelText: 'หมายเลขบัตรเครดิต/เดบิต',
-                    filled: true,
-                    fillColor: Colors.white,
                     // contentPadding: EdgeInsets.only(top: 14.0),
                   ),
                 ),
@@ -88,8 +86,6 @@ class _AddPaymentCardsState extends State<AddPaymentCards> {
                           ),
                           decoration: InputDecoration(
                             labelText: 'วันหมดอายุ',
-                            filled: true,
-                            fillColor: Colors.white,
                             suffixIcon: IconButton(
                               //padding: EdgeInsets.only(top: 5.0),
                               onPressed: (){
@@ -97,8 +93,8 @@ class _AddPaymentCardsState extends State<AddPaymentCards> {
                               },
                               icon: Image.asset(
                                 "assets/icons/help_outline.png",
-                                width: 24.0,
-                                height: 24.0,
+                                width: 20.0,
+                                height: 20.0,
                                 color: Colors.purple[700],
                               ),
                             ),
@@ -116,8 +112,6 @@ class _AddPaymentCardsState extends State<AddPaymentCards> {
                             ),
                             decoration: InputDecoration(
                               labelText: 'CCV/CVV',
-                              filled: true,
-                              fillColor: Colors.white,
                               suffixIcon: IconButton(
                                 //padding: EdgeInsets.only(top: 5.0),
                                 onPressed: (){
@@ -125,8 +119,8 @@ class _AddPaymentCardsState extends State<AddPaymentCards> {
                                 },
                                 icon: Image.asset(
                                   "assets/icons/help_outline.png",
-                                  width: 24.0,
-                                  height: 24.0,
+                                  width: 20.0,
+                                  height: 20.0,
                                   color: Colors.purple[700],
                                 ),
                               ),
@@ -147,8 +141,8 @@ class _AddPaymentCardsState extends State<AddPaymentCards> {
                   ),
                   decoration: InputDecoration(
                     labelText: 'ชื่อบนบัตร(ภาษาอังกฤษ)',
-                    filled: true,
-                    fillColor: Colors.white,
+                    //filled: true,
+                    //fillColor: Colors.white,
                     // contentPadding: EdgeInsets.only(top: 14.0),
                   ),
                 ),

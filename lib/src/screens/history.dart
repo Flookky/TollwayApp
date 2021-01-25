@@ -48,7 +48,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           Container(
                             margin: EdgeInsets.all(15.0),
                             child: Text(
-                              'Remain Cash',
+                              'ยอดเงินคงเหลือ',
                               style: TextStyle(
                                   fontSize: 18,
                                   color: Colors.black
